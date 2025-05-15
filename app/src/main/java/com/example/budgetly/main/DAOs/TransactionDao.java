@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface TransactionDao {
     @Query("SELECT * FROM transactions")
-    LiveData<List<TransactionEntity>> getAllTransactions();
+    List<TransactionEntity> getAllTransactions();
 
     @Insert
     void insert(TransactionEntity transaction);

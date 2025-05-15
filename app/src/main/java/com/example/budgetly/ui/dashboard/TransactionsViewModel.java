@@ -1,41 +1,30 @@
 package com.example.budgetly.ui.dashboard;
 
-import android.app.Application;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.budgetly.main.entities.TransactionEntity;
-import com.example.budgetly.main.repositories.TransactionRepository;
+import com.example.budgetly.main.services.TransactionsService;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.hilt.android.lifecycle.HiltViewModel;
+
+@HiltViewModel
 public class TransactionsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
-    private final TransactionRepository transactionRepository;
+    private final TransactionsService transactionsService;
 
-    public TransactionsViewModel(Application application) {
-        mText = new MutableLiveData<>();
-        transactionRepository = new TransactionRepository(application);
+    @Inject
+    public TransactionsViewModel(TransactionsService transactionsService) {
+        this.transactionsService = transactionsService;
     }
 
-    public LiveData<String> getText() {
-        TransactionEntity transaction = new TransactionEntity();
-        transaction.setBank("ciolla");
-        transactionRepository.insert(transaction);
-
-        LiveData<List<TransactionEntity>> transactions = transactionRepository.getAllTransactions();
-
-        try {
-            TransactionEntity transaction1 = transactions.getValue().get(0);
-            mText.setValue(transaction1.getBank());
-
-        } catch (Exception e) {
-            mText.setValue("Error");
-        }
-
-        return mText;
+    public LiveData<String> getTransactionsAndUpdateView() {
+        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactions();
+        return new MutableLiveData<>(transactionEntities.toString());
     }
 }
