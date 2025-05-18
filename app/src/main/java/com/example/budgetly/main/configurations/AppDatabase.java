@@ -10,8 +10,9 @@ import com.example.budgetly.main.DAOs.CategoryDao;
 import com.example.budgetly.main.DAOs.TransactionDao;
 import com.example.budgetly.main.entities.CategoryEntity;
 import com.example.budgetly.main.entities.TransactionEntity;
+import com.example.budgetly.main.migrations.RoomMigrations;
 
-@Database(entities = {TransactionEntity.class, CategoryEntity.class}, version = 1)
+@Database(entities = {TransactionEntity.class, CategoryEntity.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
     public abstract CategoryDao categoryDao();
@@ -23,7 +24,9 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                                    AppDatabase.class, "budgetly_database").allowMainThreadQueries()
+                                    AppDatabase.class, "budgetly_database")
+                            .allowMainThreadQueries()
+                            .addMigrations(RoomMigrations.addTransactionTypeAndTransactionDateToTransactions)
                             .build();
                 }
             }

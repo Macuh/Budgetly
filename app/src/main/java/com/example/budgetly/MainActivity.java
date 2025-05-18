@@ -1,33 +1,18 @@
 package com.example.budgetly;
 
-import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 
-import com.example.budgetly.main.services.AndroidPermissionService;
-import com.example.budgetly.main.services.NotificationService;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.budgetly.databinding.ActivityMainBinding;
-
-import javax.inject.Inject;
+import com.example.budgetly.main.services.NotificationService;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import lombok.NoArgsConstructor;
 
 @AndroidEntryPoint
 public class MainActivity extends AppCompatActivity {

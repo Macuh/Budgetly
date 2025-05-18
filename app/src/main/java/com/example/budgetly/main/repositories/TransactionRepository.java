@@ -12,8 +12,6 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-import dagger.hilt.android.qualifiers.ApplicationContext;
-
 public class TransactionRepository {
     private final TransactionDao transactionDao;
     private final ExecutorService executorService;

@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.example.budgetly.main.enums.TransactionTypes;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +34,10 @@ public class TransactionEntity {
 
     @ColumnInfo(name = "category")
     private Long category;
+
+    @ColumnInfo(name = "transaction_type")
+    private TransactionTypes transactionType;
+
+    @ColumnInfo(name = "transaction_date")
+    private Long transactionDate;
 }

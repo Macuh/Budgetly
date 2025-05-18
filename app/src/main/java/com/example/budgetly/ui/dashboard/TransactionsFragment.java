@@ -12,8 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetly.databinding.FragmentTransactionsBinding;
 
-import javax.inject.Inject;
-
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
