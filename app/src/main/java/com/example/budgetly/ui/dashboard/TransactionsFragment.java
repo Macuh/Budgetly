@@ -21,8 +21,6 @@ public class TransactionsFragment extends Fragment {
 
     private FragmentTransactionsBinding binding;
 
-    public TransactionsViewModel transactionsViewModel;
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         TransactionsViewModel transactionsViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);

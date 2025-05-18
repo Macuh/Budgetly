@@ -15,8 +15,8 @@ import javax.inject.Inject;
 import dagger.hilt.android.qualifiers.ApplicationContext;
 
 public class TransactionRepository {
-    private TransactionDao transactionDao;
-    private ExecutorService executorService;
+    private final TransactionDao transactionDao;
+    private final ExecutorService executorService;
 
 
     @Inject
