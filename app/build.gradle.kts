@@ -42,9 +42,7 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.mpandroidchart)
 
     compileOnly(libs.lombok)
     annotationProcessor(libs.lombok)
@@ -54,4 +52,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     annotationProcessor(libs.hilt.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

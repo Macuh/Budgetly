@@ -13,6 +13,7 @@ navigationFragment = "2.6.0"
 navigationUi = "2.6.0"
 roomVersion = "2.7.1"
 hiltVersion = "2.56.2"
+mpandroidchart = "3.1.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,6 +31,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVer
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltVersion" }
+mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -27,11 +27,15 @@ public class NotificationListener extends NotificationListenerService {
 
         if(packageName.equals(getString(R.string.trade_rep_package)))
             bankingAppNotificationConverter = new TradeRepublicNotificationConverter();
+        else if (packageName.equals(getString(R.string.test_package)))
+            bankingAppNotificationConverter = new TradeRepublicNotificationConverter();
 
         if(bankingAppNotificationConverter == null)
             return;
 
         TransactionEntity newTransaction = bankingAppNotificationConverter.extractNotificationData(sbn);
-        transactionRepository.insert(newTransaction);
+
+        if(newTransaction != null && newTransaction.getCost() != null)
+            transactionRepository.insert(newTransaction);
     }
 }

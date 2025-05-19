@@ -1,13 +1,13 @@
 package com.example.budgetly.ui.dashboard;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.services.TransactionsService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -23,8 +23,8 @@ public class TransactionsViewModel extends ViewModel {
         this.transactionsService = transactionsService;
     }
 
-    public LiveData<String> getTransactionsAndUpdateView() {
-        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactions();
-        return new MutableLiveData<>(transactionEntities.toString());
+    public List<TransactionEntryDto> getTransactionsAndUpdateView() {
+        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsOrderByDescentDate();
+        return transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList());
     }
 }

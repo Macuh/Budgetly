@@ -11,8 +11,8 @@ import java.util.List;
 
 @Dao
 public interface TransactionDao {
-    @Query("SELECT * FROM transactions")
-    List<TransactionEntity> getAllTransactions();
+    @Query("SELECT * FROM transactions ORDER BY transaction_date DESC")
+    List<TransactionEntity> getAllTransactionOrderByDescentDate();
 
     @Insert
     void insert(TransactionEntity transaction);

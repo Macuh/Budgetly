@@ -16,6 +16,6 @@ public class ButtonClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        notificationService.postNotification("test recipient", "Spent $21.30 at Just Eat");
+        notificationService.postNotification("test recipient", "Spent €21.30 at Just Eat");
     }
 }

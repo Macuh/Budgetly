@@ -19,6 +19,9 @@ public abstract class BankingAppNotificationConverter {
           String title = sbn.getNotification().extras.getString("android.title");
           String text = sbn.getNotification().extras.getString("android.text");
 
+          if(title == null || text == null)
+               return null;
+
           TransactionEntity transactionEntity = new TransactionEntity();
           transactionEntity.setBank(getBank().toString());
           transactionEntity.setTransactionRecipient(getRecipient(title, text));
