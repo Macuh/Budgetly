@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetly.databinding.FragmentNotificationsBinding;
+import com.example.budgetly.main.listeners.ButtonClickListener;
+import com.example.budgetly.main.services.NotificationService;
 
 public class NotificationsFragment extends Fragment {
 
@@ -25,6 +28,10 @@ public class NotificationsFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;
+
+        final Button button = binding.button;
+        button.setOnClickListener(new ButtonClickListener(new NotificationService(this.getContext(), this.getActivity())));
+
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
