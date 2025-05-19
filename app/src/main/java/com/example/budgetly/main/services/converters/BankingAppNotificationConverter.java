@@ -23,7 +23,7 @@ public abstract class BankingAppNotificationConverter {
                return null;
 
           TransactionEntity transactionEntity = new TransactionEntity();
-          transactionEntity.setBank(getBank().toString());
+          transactionEntity.setBank(getBank());
           transactionEntity.setTransactionRecipient(getRecipient(title, text));
           transactionEntity.setCost(getCost(title, text));
           transactionEntity.setTransactionType(getTransactionType(title, text));

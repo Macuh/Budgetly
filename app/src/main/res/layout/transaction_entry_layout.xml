@@ -10,20 +10,31 @@
     android:foreground="?attr/selectableItemBackground">
 
     <TextView
+        android:id="@+id/bankText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bank"
+        android:textSize="14sp"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/dateText"
+        />
+
+    <TextView
         android:id="@+id/dateText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="date"
+        android:text="Date"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
         android:maxLines="1"
         android:ellipsize="end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bankText"
         app:layout_constraintEnd_toStartOf="@+id/categoryText"
         />
-
-    <!-- Recipient Text on top-left -->
 
     <TextView
         android:id="@+id/recipientText"
@@ -31,8 +42,8 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="recipient"
-        android:textColor="@android:color/black"
+        android:text="Recipient"
+        android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/categoryText"
@@ -45,7 +56,7 @@
         android:id="@+id/costText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="cost"
+        android:text="Cost"
         android:textSize="14sp"
         android:textColor="@android:color/darker_gray"
         android:maxLines="1"

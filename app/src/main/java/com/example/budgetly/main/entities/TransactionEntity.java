@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.example.budgetly.main.enums.BankNames;
 import com.example.budgetly.main.enums.TransactionTypes;
 
 import lombok.Getter;
@@ -30,7 +31,7 @@ public class TransactionEntity {
     private Double cost;
 
     @ColumnInfo(name = "bank")
-    private String bank;
+    private BankNames bank;
 
     @ColumnInfo(name = "category")
     private Long category;

@@ -1,6 +1,8 @@
 package com.example.budgetly.main.dto;
 
 import com.example.budgetly.main.entities.TransactionEntity;
+import com.example.budgetly.main.enums.BankNames;
+import com.example.budgetly.main.enums.TransactionTypes;
 import com.example.budgetly.main.utils.DateUtils;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +18,8 @@ public class TransactionEntryDto {
         setRecipient(transactionEntity.getTransactionRecipient());
         setCost(transactionEntity.getCost());
         setDate(DateUtils.convertUnixToStringLocalDateTime(transactionEntity.getTransactionDate()));
+        setTransactionType(transactionEntity.getTransactionType());
+        setBank(transactionEntity.getBank());
 
         String category = "";
         setCategory(category);
@@ -25,4 +29,6 @@ public class TransactionEntryDto {
     private Double cost;
     private String category;
     private String date;
+    private BankNames bank;
+    private TransactionTypes transactionType;
 }
