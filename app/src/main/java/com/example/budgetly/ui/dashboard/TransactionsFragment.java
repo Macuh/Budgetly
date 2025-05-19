@@ -1,9 +1,13 @@
 package com.example.budgetly.ui.dashboard;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetly.databinding.FragmentTransactionsBinding;
 import com.example.budgetly.main.adapters.TransactionEntryAdapter;
 import com.example.budgetly.main.dto.TransactionEntryDto;
+import com.example.budgetly.main.listeners.TransactionsClickListener;
 
+import java.util.Collections;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -33,15 +39,18 @@ public class TransactionsFragment extends Fragment {
         View root = binding.getRoot();
 
         final RecyclerView recyclerView = binding.itemList;
+        final TextView emptyListTextView = binding.emptyText;
 
         List<TransactionEntryDto> data = transactionsViewModel.getTransactionsAndUpdateView();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new TransactionEntryAdapter(data, v -> {
-            int position = (int) v.getTag();
-            TransactionEntryDto clicked = data.get(position);
-            Toast.makeText(this.getContext(), "Clicked: " + clicked.getRecipient(), Toast.LENGTH_SHORT).show();
-        }));
+        recyclerView.setAdapter(new TransactionEntryAdapter(data, new TransactionsClickListener(getContext(), data)));
+
+        // Show info message if data is empty
+        if(data.isEmpty()) {
+            recyclerView.setVisibility(GONE);
+            emptyListTextView.setVisibility(VISIBLE);
+        }
 
         return root;
     }
