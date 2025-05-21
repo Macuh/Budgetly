@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,8 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetly.databinding.FragmentTransactionsBinding;
 import com.example.budgetly.main.adapters.TransactionEntryAdapter;
 import com.example.budgetly.main.dto.TransactionEntryDto;
+import com.example.budgetly.main.dto.TransactionSummaryDto;
 import com.example.budgetly.main.listeners.TransactionsClickListener;
+import com.example.budgetly.main.listeners.TransactionsMonthListener;
 
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.Year;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,20 +49,27 @@ public class TransactionsFragment extends Fragment {
         binding = FragmentTransactionsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final RecyclerView recyclerView = binding.itemList;
+        final TextView totalCostView = binding.totalCost;
+
+        final RecyclerView transactionsList = binding.itemList;
         final TextView emptyListTextView = binding.emptyText;
 
-        List<TransactionEntryDto> data = transactionsViewModel.getTransactionsAndUpdateView();
+        final Spinner monthSelector = binding.monthSelector;
+        List<String> allTransactionMonths = transactionsViewModel.getAllTransactionMonths();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new TransactionEntryAdapter(data, new TransactionsClickListener(getContext(), data)));
+        String actualMonth = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
-        // Show info message if data is empty
-        if(data.isEmpty()) {
-            recyclerView.setVisibility(GONE);
-            emptyListTextView.setVisibility(VISIBLE);
+        if(!allTransactionMonths.contains(actualMonth)) {
+            allTransactionMonths = new ArrayList<>(allTransactionMonths);
+            allTransactionMonths.add(0, actualMonth);
         }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, allTransactionMonths);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        monthSelector.setAdapter(adapter);
+
+        // Update UI by month selector listener
+        monthSelector.setOnItemSelectedListener(new TransactionsMonthListener(getContext(), transactionsViewModel, totalCostView, transactionsList, emptyListTextView));
         return root;
     }
 

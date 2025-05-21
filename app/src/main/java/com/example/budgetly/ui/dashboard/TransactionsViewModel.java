@@ -3,6 +3,7 @@ package com.example.budgetly.ui.dashboard;
 import androidx.lifecycle.ViewModel;
 
 import com.example.budgetly.main.dto.TransactionEntryDto;
+import com.example.budgetly.main.dto.TransactionSummaryDto;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.services.TransactionsService;
 
@@ -23,8 +24,17 @@ public class TransactionsViewModel extends ViewModel {
         this.transactionsService = transactionsService;
     }
 
-    public List<TransactionEntryDto> getTransactionsAndUpdateView() {
-        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsOrderByDescentDate();
-        return transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList());
+    public TransactionSummaryDto getTransactionsSummaryByMonth(String yearAndMonth) {
+        TransactionSummaryDto transactionsSummary = new TransactionSummaryDto();
+        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsOrderByDescentDate(yearAndMonth);
+
+        transactionsSummary.setTotalCost(transactionEntities.stream().mapToDouble(TransactionEntity::getCost).sum());
+        transactionsSummary.setTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList()));
+
+        return transactionsSummary;
+    }
+
+    public List<String> getAllTransactionMonths() {
+        return transactionsService.getAllTransactionMonths();
     }
 }

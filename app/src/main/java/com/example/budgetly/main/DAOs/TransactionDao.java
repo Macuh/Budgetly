@@ -7,12 +7,16 @@ import androidx.room.Update;
 
 import com.example.budgetly.main.entities.TransactionEntity;
 
+import java.time.Month;
 import java.util.List;
 
 @Dao
 public interface TransactionDao {
-    @Query("SELECT * FROM transactions ORDER BY transaction_date DESC")
-    List<TransactionEntity> getAllTransactionOrderByDescentDate();
+    @Query("SELECT * FROM transactions WHERE strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) = :yearAndMonth ORDER BY transaction_date DESC")
+    List<TransactionEntity> getAllTransactionOrderByDescentDate(String yearAndMonth);
+
+    @Query("SELECT DISTINCT strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) AS month FROM transactions ORDER BY month DESC")
+    List<String> getAllTransactionMonths();
 
     @Insert
     void insert(TransactionEntity transaction);

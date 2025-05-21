@@ -15,7 +15,11 @@ public class TransactionsService {
         this.transactionRepository = transactionRepository;
     }
 
-    public List<TransactionEntity> getAllTransactionsOrderByDescentDate() {
-        return transactionRepository.getAllTransactionsOrderByDescentDate();
+    public List<TransactionEntity> getAllTransactionsOrderByDescentDate(String yearAndMonth) {
+        return transactionRepository.getAllTransactionsByMonthOrderByDescentDate(yearAndMonth);
+    }
+
+    public List<String> getAllTransactionMonths() {
+        return transactionRepository.getAllTransactionMonths();
     }
 }
