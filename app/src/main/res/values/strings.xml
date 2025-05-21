@@ -11,4 +11,6 @@
     <!-- Banking apps packages -->
     <string name="trade_rep_package">de.traderepublic.app</string>
     <string name="test_package">com.example.budgetly</string>
+
+    <string name="month_total_cost_header">Hai speso: $</string>
 </resources>
