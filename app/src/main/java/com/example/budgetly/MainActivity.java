@@ -9,8 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.budgetly.databinding.ActivityMainBinding;
-import com.example.budgetly.main.services.NotificationService;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import dagger.hilt.android.AndroidEntryPoint;
 

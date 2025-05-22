@@ -1,38 +1,29 @@
 package com.example.budgetly.ui.dashboard;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.budgetly.R;
 import com.example.budgetly.databinding.FragmentTransactionsBinding;
-import com.example.budgetly.main.adapters.TransactionEntryAdapter;
-import com.example.budgetly.main.dto.TransactionEntryDto;
-import com.example.budgetly.main.dto.TransactionSummaryDto;
-import com.example.budgetly.main.listeners.TransactionsClickListener;
 import com.example.budgetly.main.listeners.TransactionsMonthListener;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -42,6 +33,21 @@ public class TransactionsFragment extends Fragment {
 
     private FragmentTransactionsBinding binding;
 
+    private void setLineChartProperties(LineChart lineChart) {
+        Context context = this.getContext();
+
+        if(context != null) {
+            lineChart.getXAxis().setTextColor(this.getContext().getColor(R.color.dark_grey));
+            lineChart.getAxisLeft().setTextColor(getContext().getColor(R.color.dark_grey));
+        }
+
+        lineChart.getAxisLeft().setDrawLabels(true);
+        lineChart.getLegend().setEnabled(false);
+
+        lineChart.getAxisLeft().setDrawGridLines(false);
+        lineChart.getXAxis().setDrawGridLines(false);
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         TransactionsViewModel transactionsViewModel = new ViewModelProvider(this).get(TransactionsViewModel.class);
@@ -50,13 +56,14 @@ public class TransactionsFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView totalCostView = binding.totalCost;
-
         final RecyclerView transactionsList = binding.itemList;
         final TextView emptyListTextView = binding.emptyText;
-
         final Spinner monthSelector = binding.monthSelector;
-        List<String> allTransactionMonths = transactionsViewModel.getAllTransactionMonths();
+        final LineChart lineChart = binding.lineChart;
 
+        setLineChartProperties(lineChart);
+
+        List<String> allTransactionMonths = transactionsViewModel.getAllTransactionMonths();
         String actualMonth = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM"));
 
         if(!allTransactionMonths.contains(actualMonth)) {
@@ -69,7 +76,7 @@ public class TransactionsFragment extends Fragment {
         monthSelector.setAdapter(adapter);
 
         // Update UI by month selector listener
-        monthSelector.setOnItemSelectedListener(new TransactionsMonthListener(getContext(), transactionsViewModel, totalCostView, transactionsList, emptyListTextView));
+        monthSelector.setOnItemSelectedListener(new TransactionsMonthListener(getContext(), transactionsViewModel, totalCostView, transactionsList, lineChart, emptyListTextView));
         return root;
     }
 

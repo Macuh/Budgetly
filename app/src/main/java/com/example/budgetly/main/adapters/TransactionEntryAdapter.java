@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetly.R;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.enums.TransactionTypes;
+import com.example.budgetly.main.utils.DateUtils;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -52,7 +53,7 @@ public class TransactionEntryAdapter extends RecyclerView.Adapter<TransactionEnt
 
         holder.recipientText.setText(entry.getRecipient());
         holder.categoryText.setText(entry.getCategory());
-        holder.dateText.setText(entry.getDate());
+        holder.dateText.setText(DateUtils.convertLocalDateTimeToDisplayableDate(entry.getDate()));
         holder.bankText.setText(entry.getBank().getDisplayName());
 
         holder.costText.setText(formattedCost);
