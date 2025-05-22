@@ -1,6 +1,7 @@
 package com.example.budgetly.main.utils;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
@@ -31,5 +32,13 @@ public class DateUtils {
         DateTimeFormatter formatterToYearMonth = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
         YearMonth yearMonth2 = YearMonth.parse(input, formatterToYearMonth);
         return yearMonth2.toString();
+    }
+
+    public static int getFirstMonthsDay() {
+        return LocalDate.now().withDayOfMonth(1).getDayOfMonth();
+    }
+
+    public static int getCurrentDay() {
+        return LocalDate.now().getDayOfMonth();
     }
 }

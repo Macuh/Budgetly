@@ -24,7 +24,9 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Month;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -73,13 +75,21 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
     }
 
     private ArrayList<Entry> getDailyChartEntries(Map<Integer, List<TransactionEntryDto>> transactionsGroupedByDay) {
+        int firstDayOfMonth = DateUtils.getFirstMonthsDay();
+        int currentDay = DateUtils.getCurrentDay();
+
         ArrayList<Entry> summedCostsByDay = new ArrayList<>();
 
         float actualSum = 0f;
 
-        for(Map.Entry<Integer, List<TransactionEntryDto>> entry : transactionsGroupedByDay.entrySet()) {
-            actualSum = actualSum + (float) entry.getValue().stream().mapToDouble(TransactionEntryDto::getCost).sum();
-            summedCostsByDay.add(new Entry(entry.getKey(), actualSum));
+        for(int i = firstDayOfMonth; i <= currentDay; i++) {
+            List<TransactionEntryDto> dailyTransaction = transactionsGroupedByDay.get(i);
+
+            if(dailyTransaction == null)
+                dailyTransaction = Collections.emptyList();
+
+            actualSum = actualSum + (float) dailyTransaction.stream().mapToDouble(TransactionEntryDto::getCost).sum();
+            summedCostsByDay.add(new Entry(i, actualSum));
         }
 
         return summedCostsByDay;
