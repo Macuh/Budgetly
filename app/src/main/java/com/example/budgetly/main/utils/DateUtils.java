@@ -2,8 +2,10 @@ package com.example.budgetly.main.utils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class DateUtils {
     public static LocalDateTime convertUnixToLocalDateTime(Long unixTimestamp) {
@@ -17,5 +19,17 @@ public class DateUtils {
     public static String convertLocalDateTimeToDisplayableDate(LocalDateTime localDateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return localDateTime.format(formatter);
+    }
+
+    public static String convertNumericYearMonthToDisplayableMonth(String input) {
+        YearMonth yearMonth = YearMonth.parse(input);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
+        return yearMonth.format(formatter);
+    }
+
+    public static String convertDisplayableMonthToNumericYearMonth(String input) {
+        DateTimeFormatter formatterToYearMonth = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
+        YearMonth yearMonth2 = YearMonth.parse(input, formatterToYearMonth);
+        return yearMonth2.toString();
     }
 }

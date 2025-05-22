@@ -18,15 +18,29 @@
 
     <!-- Total Monthly Cost Below Selector -->
     <TextView
-        android:id="@+id/totalCost"
+        android:id="@+id/totalCostHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hai speso: $"
-        android:textSize="20sp"
+        android:text="@string/month_total_cost_header"
+        android:textSize="15sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintTop_toBottomOf="@id/monthSelector"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="12dp" />
+
+
+    <TextView
+        android:id="@+id/totalCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="$2000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/totalCostHeader" />
 
     <!-- Line Chart -->
     <com.github.mikephil.charting.charts.LineChart

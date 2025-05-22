@@ -25,7 +25,7 @@ public class TransactionEntryAdapter extends RecyclerView.Adapter<TransactionEnt
 
     private void setCostTextColor(TextView costText, TransactionTypes transactionType) {
         if(transactionType.equals(TransactionTypes.OUTGOING))
-            costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.dark_red));
+            costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.light_red));
         else if(transactionType.equals(TransactionTypes.INGOING))
             costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.dark_green));
     }

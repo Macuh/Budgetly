@@ -15,6 +15,7 @@ import com.example.budgetly.R;
 import com.example.budgetly.main.adapters.TransactionEntryAdapter;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.dto.TransactionSummaryDto;
+import com.example.budgetly.main.utils.DateUtils;
 import com.example.budgetly.ui.dashboard.TransactionsViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -47,7 +48,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
     }
 
     private void displayTotalCostInfo(TransactionSummaryDto transactionSummaryDto, TextView totalCostView) {
-        totalCostView.setText(String.format("%s%s", context.getString(R.string.month_total_cost_header), BigDecimal.valueOf(transactionSummaryDto.getTotalCost()).setScale(2, RoundingMode.CEILING)));
+        totalCostView.setText(String.format("%s$", BigDecimal.valueOf(transactionSummaryDto.getTotalCost()).setScale(2, RoundingMode.CEILING)));
     }
 
     private void displayTransactionsInfo(TransactionSummaryDto transactionSummaryDto, RecyclerView transactionsList, TextView emptyListTextView) {
@@ -93,6 +94,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
 
         LineDataSet lineDataSet = new LineDataSet(summedCostsByDay, "data");
         lineDataSet.setColor(context.getColor(R.color.dark_green));
+        lineDataSet.setLineWidth(5);
 
         lineData.addDataSet(lineDataSet);
         lineChart.setData(lineData);
@@ -108,7 +110,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String actualYearAndMonth = parent.getItemAtPosition(position).toString();
+        String actualYearAndMonth = DateUtils.convertDisplayableMonthToNumericYearMonth(parent.getItemAtPosition(position).toString());
         updateTransactionDataByMonth(transactionsViewModel, totalCostView, transactionsList, emptyListTextView, actualYearAndMonth, lineChart);
     }
 

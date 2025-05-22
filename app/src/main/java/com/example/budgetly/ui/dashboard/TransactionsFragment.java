@@ -17,14 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.budgetly.R;
 import com.example.budgetly.databinding.FragmentTransactionsBinding;
 import com.example.budgetly.main.listeners.TransactionsMonthListener;
+import com.example.budgetly.main.utils.DateUtils;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -71,7 +71,11 @@ public class TransactionsFragment extends Fragment {
             allTransactionMonths.add(0, actualMonth);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, allTransactionMonths);
+        List<String> displayableMonths = allTransactionMonths.stream()
+                .map(DateUtils::convertNumericYearMonthToDisplayableMonth)
+                .collect(Collectors.toList());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, displayableMonths);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         monthSelector.setAdapter(adapter);
 

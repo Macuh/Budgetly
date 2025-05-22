@@ -23,7 +23,7 @@ public class TransactionEntryDto {
         setTransactionType(transactionEntity.getTransactionType());
         setBank(transactionEntity.getBank());
 
-        String category = "";
+        String category = "Groceries";
         setCategory(category);
     }
 
