@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class TransactionEntryDto implements Serializable {
 
     public TransactionEntryDto(TransactionEntity transactionEntity) {
+        setId(transactionEntity.getId());
         setRecipient(transactionEntity.getTransactionRecipient());
         setCost(transactionEntity.getCost());
         setDate(DateUtils.convertUnixToLocalDateTime(transactionEntity.getTransactionDate()));
@@ -28,6 +29,7 @@ public class TransactionEntryDto implements Serializable {
         setCategory(category);
     }
 
+    private Long id;
     private String recipient;
     private Double cost;
     private String category;

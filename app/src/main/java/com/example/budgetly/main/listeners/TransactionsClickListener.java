@@ -1,13 +1,12 @@
 package com.example.budgetly.main.listeners;
 
-
 import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import com.example.budgetly.R;
 import com.example.budgetly.main.dto.TransactionEntryDto;
+import com.example.budgetly.ui.dashboard.TransactionsFragmentDirections;
 
 import java.util.List;
 
@@ -23,8 +22,11 @@ public class TransactionsClickListener implements View.OnClickListener {
         int position = (int) v.getTag();
         TransactionEntryDto clicked = transactions.get(position);
 
+        TransactionsFragmentDirections.ActionNavigationExpensesToTransactionDetails action =
+                TransactionsFragmentDirections.actionNavigationExpensesToTransactionDetails(String.valueOf(clicked.getId()));
+
         NavController navController = Navigation.findNavController(v);
-        navController.navigate(R.id.navigation_transactionDetails);
+        navController.navigate(action);
     }
 }
 
