@@ -24,7 +24,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +56,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         List<TransactionEntryDto> data = transactionSummaryDto.getTransactions();
 
         transactionsList.setLayoutManager(new LinearLayoutManager(context));
-        transactionsList.setAdapter(new TransactionEntryAdapter(data, new TransactionsClickListener(context, data)));
+        transactionsList.setAdapter(new TransactionEntryAdapter(data, new TransactionsClickListener(data)));
 
         // Show info message if data is empty
         if(data.isEmpty()) {

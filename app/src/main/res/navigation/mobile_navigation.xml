@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,11 +14,28 @@
         android:id="@+id/navigation_expenses"
         android:name="com.example.budgetly.ui.dashboard.TransactionsFragment"
         android:label="@string/title_transactions"
-        tools:layout="@layout/fragment_transactions" />
+        tools:layout="@layout/fragment_transactions" >
+
+        <action
+            android:id="@+id/action_navigation_expenses_to_transactionDetails"
+            app:destination="@id/navigation_transactionDetails" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.budgetly.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_transactionDetails"
+        android:name="com.example.budgetly.ui.transactionDetails.TransactionDetailsFragment"
+        android:label="@string/title_transactions_details"
+        tools:layout="@layout/fragment_transaction_details" >
+
+        <argument
+            android:name="transactionId"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

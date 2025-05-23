@@ -1,19 +1,20 @@
 package com.example.budgetly.main.listeners;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.Toast;
 
+import android.view.View;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
+import com.example.budgetly.R;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 
 import java.util.List;
 
 public class TransactionsClickListener implements View.OnClickListener {
-    Context context;
-    List<TransactionEntryDto> transactions;
+    private final List<TransactionEntryDto> transactions;
 
-    public TransactionsClickListener(Context context, List<TransactionEntryDto> transactions) {
-        this.context = context;
+    public TransactionsClickListener(List<TransactionEntryDto> transactions) {
         this.transactions = transactions;
     }
 
@@ -21,6 +22,9 @@ public class TransactionsClickListener implements View.OnClickListener {
     public void onClick(View v) {
         int position = (int) v.getTag();
         TransactionEntryDto clicked = transactions.get(position);
-        Toast.makeText(context, "Clicked: " + clicked.getRecipient(), Toast.LENGTH_SHORT).show();
+
+        NavController navController = Navigation.findNavController(v);
+        navController.navigate(R.id.navigation_transactionDetails);
     }
 }
+

@@ -5,6 +5,7 @@ import com.example.budgetly.main.enums.BankNames;
 import com.example.budgetly.main.enums.TransactionTypes;
 import com.example.budgetly.main.utils.DateUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionEntryDto {
+public class TransactionEntryDto implements Serializable {
 
     public TransactionEntryDto(TransactionEntity transactionEntity) {
         setRecipient(transactionEntity.getTransactionRecipient());
