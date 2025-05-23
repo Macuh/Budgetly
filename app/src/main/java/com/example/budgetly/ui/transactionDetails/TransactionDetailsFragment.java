@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment;
 import com.example.budgetly.R;
 
 public class TransactionDetailsFragment extends Fragment {
-
-
     public TransactionDetailsFragment() {
         // Required empty public constructor
     }
