@@ -30,8 +30,12 @@ public class DateUtils {
 
     public static String convertDisplayableMonthToNumericYearMonth(String input) {
         DateTimeFormatter formatterToYearMonth = DateTimeFormatter.ofPattern("MMMM yyyy", Locale.ENGLISH);
-        YearMonth yearMonth2 = YearMonth.parse(input, formatterToYearMonth);
-        return yearMonth2.toString();
+        YearMonth yearMonth = YearMonth.parse(input, formatterToYearMonth);
+        return yearMonth.toString();
+    }
+
+    public static String convertLocalDateTimeToNumericYearMonth(LocalDateTime input) {
+        return input.format(DateTimeFormatter.ofPattern("yyyy-MM"));
     }
 
     public static int getFirstMonthsDay() {
