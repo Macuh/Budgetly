@@ -44,4 +44,8 @@ public class TransactionRepository {
     public List<TransactionEntity> getAllTransactionByRecipientOrderByDescentDate(String yearAndMonth, String recipient) {
         return transactionDao.getAllTransactionByRecipientOrderByDescentDate(yearAndMonth, recipient);
     }
+
+    public boolean deleteById(Long transactionId) {
+        return transactionDao.deleteById(transactionId) > 0;
+    }
 }

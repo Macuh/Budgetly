@@ -1,6 +1,7 @@
 package com.example.budgetly.main.DAOs;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -11,11 +12,14 @@ import java.util.List;
 
 @Dao
 public interface TransactionDao {
-    @Query("SELECT * FROM transactions WHERE strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) = :yearAndMonth ORDER BY transaction_date DESC")
-    List<TransactionEntity> getAllTransactionOrderByDescentDate(String yearAndMonth);
-
     @Query("SELECT * FROM transactions where id = :id")
     TransactionEntity getTransactionById(Long id);
+
+    @Query("DELETE FROM transactions WHERE id = :transactionId")
+    int deleteById(Long transactionId);
+
+    @Query("SELECT * FROM transactions WHERE strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) = :yearAndMonth ORDER BY transaction_date DESC")
+    List<TransactionEntity> getAllTransactionOrderByDescentDate(String yearAndMonth);
 
     @Query("SELECT * FROM transactions WHERE strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) = :yearAndMonth AND LOWER(transaction_recipient) = LOWER(:recipient) ORDER BY transaction_date DESC")
     List<TransactionEntity> getAllTransactionByRecipientOrderByDescentDate(String yearAndMonth, String recipient);

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,43 +14,29 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.budgetly.R;
 import com.example.budgetly.databinding.FragmentTransactionDetailsBinding;
 import com.example.budgetly.main.dto.TransactionEntryDto;
+import com.example.budgetly.main.listeners.DeleteTransactionButtonClickListener;
 import com.example.budgetly.main.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class TransactionDetailsFragment extends Fragment {
+    @Inject
+    DeleteTransactionButtonClickListener.Factory deleteClickListenerFactory;
+
     private String convertDoubleNumberToString(Double number) {
         return String.format("%s$", BigDecimal.valueOf(number).setScale(2, RoundingMode.CEILING));
     }
 
-
-    public TransactionDetailsFragment() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        TransactionDetailsViewModel transactionDetailsViewModel = new ViewModelProvider(this).get(TransactionDetailsViewModel.class);
-        String transactionId = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).getTransactionId();
-
-        TransactionEntryDto transactionEntryDto = transactionDetailsViewModel.getTransactionById(transactionId);
-        List<TransactionEntryDto> recipientTransactions = transactionDetailsViewModel.getAllTransactionByRecipient(DateUtils.convertLocalDateTimeToNumericYearMonth(transactionEntryDto.getDate()), transactionEntryDto.getRecipient());
-
+    private void updateTextViewsInfo(FragmentTransactionDetailsBinding binding, TransactionDetailsViewModel transactionDetailsViewModel, TransactionEntryDto transactionEntryDto, List<TransactionEntryDto> recipientTransactions) {
         Double totalRecipientExpenses = transactionDetailsViewModel.getAllRecipientExpenses(recipientTransactions);
         Double totalRecipientReceived = transactionDetailsViewModel.getAllRecipientRevenues(recipientTransactions);
-
-        // Inflate the layout for this fragment
-        com.example.budgetly.databinding.FragmentTransactionDetailsBinding binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false);
 
         TextView amountTextView = binding.amount;
         amountTextView.setText(convertDoubleNumberToString(transactionEntryDto.getCost()));
@@ -71,7 +58,33 @@ public class TransactionDetailsFragment extends Fragment {
 
         TextView totalReceivedTextView = binding.totalReceivedText;
         totalReceivedTextView.setText(convertDoubleNumberToString(totalRecipientReceived));
+    }
 
+
+    public TransactionDetailsFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        TransactionDetailsViewModel transactionDetailsViewModel = new ViewModelProvider(this).get(TransactionDetailsViewModel.class);
+        String transactionId = TransactionDetailsFragmentArgs.fromBundle(requireArguments()).getTransactionId();
+
+        TransactionEntryDto transactionEntryDto = transactionDetailsViewModel.getTransactionById(transactionId);
+        List<TransactionEntryDto> recipientTransactions = transactionDetailsViewModel.getAllTransactionByRecipient(DateUtils.convertLocalDateTimeToNumericYearMonth(transactionEntryDto.getDate()), transactionEntryDto.getRecipient());
+
+        // Inflate the layout for this fragment
+        com.example.budgetly.databinding.FragmentTransactionDetailsBinding binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false);
+        updateTextViewsInfo(binding, transactionDetailsViewModel, transactionEntryDto, recipientTransactions);
+
+        DeleteTransactionButtonClickListener deleteClickListener = deleteClickListenerFactory.create(transactionId);
+        Button button = binding.btnDelete;
+        button.setOnClickListener(deleteClickListener);
 
         return binding.getRoot();
     }
