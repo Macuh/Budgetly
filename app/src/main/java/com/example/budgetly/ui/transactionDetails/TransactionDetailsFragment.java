@@ -15,6 +15,7 @@ import com.example.budgetly.R;
 import com.example.budgetly.databinding.FragmentTransactionDetailsBinding;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.listeners.DeleteTransactionButtonClickListener;
+import com.example.budgetly.main.listeners.EditTransactionButtonClickListener;
 import com.example.budgetly.main.utils.DateUtils;
 
 import java.math.BigDecimal;
@@ -83,8 +84,12 @@ public class TransactionDetailsFragment extends Fragment {
         updateTextViewsInfo(binding, transactionDetailsViewModel, transactionEntryDto, recipientTransactions);
 
         DeleteTransactionButtonClickListener deleteClickListener = deleteClickListenerFactory.create(transactionId);
-        Button button = binding.btnDelete;
-        button.setOnClickListener(deleteClickListener);
+        Button deleteButton = binding.btnDelete;
+        deleteButton.setOnClickListener(deleteClickListener);
+
+        EditTransactionButtonClickListener editClickListener = new EditTransactionButtonClickListener(transactionId);
+        Button editButton = binding.btnEdit;
+        editButton.setOnClickListener(editClickListener);
 
         return binding.getRoot();
     }
