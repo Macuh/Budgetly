@@ -105,6 +105,8 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         lineDataSet.setColor(context.getColor(R.color.dark_green));
         lineDataSet.setLineWidth(5);
 
+        lineDataSet.setValueTextColor(context.getColor(R.color.dark_grey));
+
         lineData.addDataSet(lineDataSet);
         lineChart.setData(lineData);
         lineChart.invalidate();

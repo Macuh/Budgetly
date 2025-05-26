@@ -42,10 +42,17 @@ public class TransactionsFragment extends Fragment {
         }
 
         lineChart.getAxisLeft().setDrawLabels(true);
+        lineChart.getAxisRight().setDrawLabels(false);
+
+        lineChart.getDescription().setEnabled(false);
         lineChart.getLegend().setEnabled(false);
 
         lineChart.getAxisLeft().setDrawGridLines(false);
         lineChart.getXAxis().setDrawGridLines(false);
+        lineChart.getAxisRight().setDrawGridLines(false);
+
+        lineChart.setTouchEnabled(false);
+        lineChart.setPinchZoom(false);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
