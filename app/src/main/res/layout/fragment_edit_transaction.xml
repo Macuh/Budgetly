@@ -45,7 +45,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_launcher_background" />
+                        android:src="@drawable/baseline_person_24" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/recipientEditText"
@@ -80,7 +80,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_launcher_background" />
+                        android:src="@drawable/outline_attach_money_24" />
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/costEditText"
@@ -115,7 +115,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_launcher_background"/>
+                        android:src="@drawable/baseline_account_balance_wallet_24"/>
 
                     <AutoCompleteTextView
                         android:id="@+id/bankAutoComplete"
@@ -151,7 +151,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_launcher_background"/>
+                        android:src="@drawable/baseline_category_24"/>
 
                     <AutoCompleteTextView
                         android:id="@+id/categoryAutoComplete"
@@ -187,7 +187,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_launcher_background"/>
+                        android:src="@drawable/baseline_merge_type_24"/>
 
                     <AutoCompleteTextView
                         android:id="@+id/transactionTypeAutoComplete"
@@ -223,7 +223,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_launcher_background"/>
+                        android:src="@drawable/outline_date_range_24"/>
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dateEditText"
@@ -254,6 +254,7 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textSize="18sp"
+        app:backgroundTint="@color/purple_500"
         app:cornerRadius="28dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
