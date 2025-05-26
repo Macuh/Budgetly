@@ -18,7 +18,11 @@
 
         <action
             android:id="@+id/action_navigation_expenses_to_transactionDetails"
-            app:destination="@id/navigation_transactionDetails" />
+            app:destination="@id/navigation_transactionDetails"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -39,7 +43,11 @@
 
         <action
             android:id="@+id/action_navigation_transactionDetails_to_editTransaction"
-            app:destination="@id/navigation_editTransaction" />
+            app:destination="@id/navigation_editTransaction"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
