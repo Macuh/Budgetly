@@ -30,8 +30,22 @@ public class TransactionsService {
         return transactionRepository.getAllTransactionMonths();
     }
 
-    public TransactionEntryDto getTransactionById(Long transactionId) {
-        TransactionEntity transaction = transactionRepository.getTransactionById(transactionId);
+    public TransactionEntryDto getTransactionById(String transactionId) {
+        TransactionEntity transaction = null;
+
+        if (transactionId != null)
+            transaction = transactionRepository.getTransactionById(Long.valueOf(transactionId));
+
         return transaction != null ? new TransactionEntryDto(transaction) : null;
+    }
+
+    public boolean saveTransaction(TransactionEntryDto transactionEntryDto) {
+        try {
+            TransactionEntity transactionEntity = new TransactionEntity(transactionEntryDto);
+            transactionRepository.update(transactionEntity);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

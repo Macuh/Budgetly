@@ -5,9 +5,9 @@ import android.service.notification.StatusBarNotification;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.enums.BankNames;
 import com.example.budgetly.main.enums.TransactionTypes;
+import com.example.budgetly.main.utils.DateUtils;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 public abstract class BankingAppNotificationConverter {
      protected abstract BankNames getBank();
@@ -27,7 +27,7 @@ public abstract class BankingAppNotificationConverter {
           transactionEntity.setTransactionRecipient(getRecipient(title, text));
           transactionEntity.setCost(getCost(title, text));
           transactionEntity.setTransactionType(getTransactionType(title, text));
-          transactionEntity.setTransactionDate(LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+          transactionEntity.setTransactionDate(DateUtils.convertLocalDateTimeToUnix(LocalDateTime.now()));
           transactionEntity.setCategory(null);
 
           return transactionEntity;

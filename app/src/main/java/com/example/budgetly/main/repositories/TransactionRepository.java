@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.example.budgetly.main.DAOs.TransactionDao;
 import com.example.budgetly.main.configurations.AppDatabase;
-import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.entities.TransactionEntity;
 
 import java.util.List;
@@ -47,5 +46,9 @@ public class TransactionRepository {
 
     public boolean deleteById(Long transactionId) {
         return transactionDao.deleteById(transactionId) > 0;
+    }
+
+    public void update(TransactionEntity transaction) {
+        transactionDao.update(transaction);
     }
 }

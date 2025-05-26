@@ -26,8 +26,7 @@ public class TransactionDetailsViewModel extends ViewModel {
 
     public TransactionEntryDto getTransactionById(String transactionId) {
         try {
-            if(transactionId != null)
-                return transactionsService.getTransactionById(Long.valueOf(transactionId));
+            return transactionsService.getTransactionById(transactionId);
         } catch (Exception e) {
             Log.e("TransactionDetailsViewModel.getTransactionById", "getTransactionById: ", e);
         }

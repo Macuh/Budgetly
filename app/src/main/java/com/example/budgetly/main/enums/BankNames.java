@@ -12,6 +12,15 @@ public enum BankNames {
         this.displayName = displayName;
     }
 
+    public static BankNames fromString(String input) {
+        if (input == null) return null;
+        try {
+            return BankNames.valueOf(input.trim().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     public String getDisplayName() {
         return displayName;
     }

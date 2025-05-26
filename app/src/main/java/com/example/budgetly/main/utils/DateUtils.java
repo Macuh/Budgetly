@@ -5,10 +5,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class DateUtils {
+    public static final String displayableDateStringFormat = "yyyy-MM-dd HH:mm";
+
     public static LocalDateTime convertUnixToLocalDateTime(Long unixTimestamp) {
         // Convert Unix timestamp (in seconds) to Instant
         Instant instant = Instant.ofEpochSecond(unixTimestamp);
@@ -17,8 +20,16 @@ public class DateUtils {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
+    public static Long convertLocalDateTimeToUnix(LocalDateTime localDateTime) {
+        return localDateTime.toEpochSecond(ZoneOffset.UTC);
+    }
+
+    public static LocalDateTime convertDisplayableDateToLocalDateTime(String input) {
+        return LocalDateTime.parse(input, DateTimeFormatter.ofPattern(displayableDateStringFormat));
+    }
+
     public static String convertLocalDateTimeToDisplayableDate(LocalDateTime localDateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(displayableDateStringFormat);
         return localDateTime.format(formatter);
     }
 

@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.budgetly.R;
 import com.example.budgetly.databinding.FragmentTransactionDetailsBinding;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.listeners.DeleteTransactionButtonClickListener;
@@ -80,7 +79,7 @@ public class TransactionDetailsFragment extends Fragment {
         List<TransactionEntryDto> recipientTransactions = transactionDetailsViewModel.getAllTransactionByRecipient(DateUtils.convertLocalDateTimeToNumericYearMonth(transactionEntryDto.getDate()), transactionEntryDto.getRecipient());
 
         // Inflate the layout for this fragment
-        com.example.budgetly.databinding.FragmentTransactionDetailsBinding binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false);
+        FragmentTransactionDetailsBinding binding = FragmentTransactionDetailsBinding.inflate(inflater, container, false);
         updateTextViewsInfo(binding, transactionDetailsViewModel, transactionEntryDto, recipientTransactions);
 
         DeleteTransactionButtonClickListener deleteClickListener = deleteClickListenerFactory.create(transactionId);

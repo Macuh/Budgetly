@@ -5,14 +5,18 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.enums.BankNames;
 import com.example.budgetly.main.enums.TransactionTypes;
+import com.example.budgetly.main.utils.DateUtils;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity(tableName = "transactions",
         foreignKeys = {
                 @ForeignKey(entity = CategoryEntity.class,
@@ -21,6 +25,17 @@ import lombok.Setter;
                         onDelete = ForeignKey.CASCADE)
         })
 public class TransactionEntity {
+    public TransactionEntity(TransactionEntryDto transactionEntryDto) {
+        this.id = transactionEntryDto.getId();
+        this.transactionRecipient = transactionEntryDto.getRecipient();
+        this.cost = transactionEntryDto.getCost();
+        this.bank = transactionEntryDto.getBank();
+        this.category = null; // TODO: Implement categories
+        this.transactionType = transactionEntryDto.getTransactionType();
+        this.transactionDate = DateUtils.convertLocalDateTimeToUnix(transactionEntryDto.getDate());
+
+    }
+
     @PrimaryKey(autoGenerate = true)
     private Long id;
 

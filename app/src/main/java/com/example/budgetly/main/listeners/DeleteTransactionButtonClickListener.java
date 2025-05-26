@@ -7,6 +7,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.budgetly.main.repositories.TransactionRepository;
+import com.example.budgetly.main.utils.DialogsUtils;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -46,12 +47,13 @@ public class DeleteTransactionButtonClickListener implements View.OnClickListene
     public void onClick(View v) {
         NavController navController = Navigation.findNavController(v);
 
-        new android.app.AlertDialog.Builder(v.getContext())
-                .setTitle("Confirm Deletion")
-                .setMessage("Are you sure you want to delete this transaction?")
-                .setPositiveButton("Delete", (dialog, which) -> dialogPositiveButton(v, navController))
-                .setNegativeButton("Cancel", null)
-                .show();
+        DialogsUtils.showAlertDialog(v.getContext(),
+                "Confirm Deletion",
+                "Are you sure you want to delete this transaction?",
+                "Delete",
+                (dialog, which) -> dialogPositiveButton(v, navController),
+                "Cancel",
+                null);
     }
 
     @AssistedFactory
