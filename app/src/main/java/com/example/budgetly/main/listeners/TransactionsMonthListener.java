@@ -15,7 +15,9 @@ import com.example.budgetly.R;
 import com.example.budgetly.main.adapters.TransactionEntryAdapter;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.dto.TransactionSummaryDto;
+import com.example.budgetly.main.enums.TransactionTypes;
 import com.example.budgetly.main.utils.DateUtils;
+import com.example.budgetly.main.utils.TransactionUtils;
 import com.example.budgetly.ui.dashboard.TransactionsViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -87,7 +89,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
             if(dailyTransaction == null)
                 dailyTransaction = Collections.emptyList();
 
-            actualSum = actualSum + (float) dailyTransaction.stream().mapToDouble(TransactionEntryDto::getCost).sum();
+            actualSum = actualSum + TransactionUtils.sumTransactions(dailyTransaction);
             summedCostsByDay.add(new Entry(i, actualSum));
         }
 

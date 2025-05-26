@@ -6,6 +6,7 @@ import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.dto.TransactionSummaryDto;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.services.TransactionsService;
+import com.example.budgetly.main.utils.TransactionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class TransactionsViewModel extends ViewModel {
         TransactionSummaryDto transactionsSummary = new TransactionSummaryDto();
         List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsOrderByDescentDate(yearAndMonth);
 
-        transactionsSummary.setTotalCost(transactionEntities.stream().mapToDouble(TransactionEntity::getCost).sum());
+        transactionsSummary.setTotalCost((double) TransactionUtils.sumTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList())));
         transactionsSummary.setTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList()));
 
         return transactionsSummary;
