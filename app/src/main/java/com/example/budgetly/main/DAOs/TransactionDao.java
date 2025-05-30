@@ -26,6 +26,9 @@ public interface TransactionDao {
     @Query("SELECT DISTINCT strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) AS month FROM transactions ORDER BY month DESC")
     List<String> getAllTransactionMonths();
 
+    @Query("SELECT SUM(transactions.cost) FROM transactions WHERE strftime('%Y-%m-%d', datetime(transaction_date, 'unixepoch')) = :yearMonthDay")
+    Double getDailyExpensesSum(String yearMonthDay);
+
     @Insert
     void insert(TransactionEntity transaction);
 

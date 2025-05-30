@@ -40,6 +40,10 @@ public class TransactionRepository {
         return transactionDao.getTransactionById(transactionId);
     }
 
+    public Double getDailyExpenses(String yearMonthDay) {
+        return transactionDao.getDailyExpensesSum(yearMonthDay);
+    }
+
     public List<TransactionEntity> getAllTransactionByRecipientOrderByDescentDate(String yearAndMonth, String recipient) {
         return transactionDao.getAllTransactionByRecipientOrderByDescentDate(yearAndMonth, recipient);
     }

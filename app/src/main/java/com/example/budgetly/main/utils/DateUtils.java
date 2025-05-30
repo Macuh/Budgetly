@@ -49,6 +49,10 @@ public class DateUtils {
         return input.format(DateTimeFormatter.ofPattern("yyyy-MM"));
     }
 
+    public static String convertLocalDateTimeToNumericYearMonthDay(LocalDateTime input) {
+        return input.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
     public static int getFirstMonthsDay() {
         return LocalDate.now().withDayOfMonth(1).getDayOfMonth();
     }

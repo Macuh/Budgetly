@@ -6,8 +6,12 @@ import android.service.notification.StatusBarNotification;
 import com.example.budgetly.R;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.repositories.TransactionRepository;
+import com.example.budgetly.main.services.NotificationService;
 import com.example.budgetly.main.services.converters.BankingAppNotificationConverter;
 import com.example.budgetly.main.services.converters.TradeRepublicNotificationConverter;
+import com.example.budgetly.main.utils.DateUtils;
+
+import java.time.LocalDateTime;
 
 import javax.inject.Inject;
 
@@ -18,6 +22,9 @@ public class NotificationListener extends NotificationListenerService {
 
     @Inject
     public TransactionRepository transactionRepository;
+
+    @Inject
+    public NotificationService notificationService;
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
@@ -35,7 +42,10 @@ public class NotificationListener extends NotificationListenerService {
 
         TransactionEntity newTransaction = bankingAppNotificationConverter.extractNotificationData(sbn);
 
-        if(newTransaction != null && newTransaction.getCost() != null)
+        if(newTransaction != null && newTransaction.getCost() != null) {
             transactionRepository.insert(newTransaction);
+            Double dailyExpenses = transactionRepository.getDailyExpenses(DateUtils.convertLocalDateTimeToNumericYearMonthDay(LocalDateTime.now()));
+            notificationService.postNotification("Riepilogo spese", String.format("Oggi hai speso %s", dailyExpenses));
+        }
     }
 }
