@@ -45,7 +45,8 @@ public class NotificationService {
     }
 
     public void postNotification(String title, String message) {
-        AndroidPermissionService.askForPermission(context, activity, Manifest.permission.POST_NOTIFICATIONS);
+        if(activity != null)
+            AndroidPermissionService.askForPermission(context, activity, Manifest.permission.POST_NOTIFICATIONS);
 
         NotificationManager notificationManager = getNotificationManager();
 

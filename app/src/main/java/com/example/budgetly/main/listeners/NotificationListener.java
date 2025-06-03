@@ -11,6 +11,8 @@ import com.example.budgetly.main.services.converters.BankingAppNotificationConve
 import com.example.budgetly.main.services.converters.TradeRepublicNotificationConverter;
 import com.example.budgetly.main.utils.DateUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 import javax.inject.Inject;
@@ -23,8 +25,11 @@ public class NotificationListener extends NotificationListenerService {
     @Inject
     public TransactionRepository transactionRepository;
 
-    @Inject
-    public NotificationService notificationService;
+    private void showDailyExpensesNotification(TransactionEntity newTransaction) {
+        double dailyExpenses = transactionRepository.getDailyExpenses(DateUtils.convertLocalDateTimeToNumericYearMonthDay(LocalDateTime.now())) + newTransaction.getCost();
+        BigDecimal formattedDailyExpenses = new BigDecimal(dailyExpenses);
+        new NotificationService(this.getApplicationContext(), null).postNotification("Riepilogo spese", String.format("Oggi hai speso %s", formattedDailyExpenses.setScale(2, RoundingMode.CEILING)));
+    }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
@@ -44,8 +49,7 @@ public class NotificationListener extends NotificationListenerService {
 
         if(newTransaction != null && newTransaction.getCost() != null) {
             transactionRepository.insert(newTransaction);
-            Double dailyExpenses = transactionRepository.getDailyExpenses(DateUtils.convertLocalDateTimeToNumericYearMonthDay(LocalDateTime.now()));
-            notificationService.postNotification("Riepilogo spese", String.format("Oggi hai speso %s", dailyExpenses));
+            showDailyExpensesNotification(newTransaction);
         }
     }
 }
