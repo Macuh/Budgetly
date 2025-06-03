@@ -25,7 +25,7 @@ public class TransactionEntryDto implements Serializable {
         setTransactionType(transactionEntity.getTransactionType());
         setBank(transactionEntity.getBank());
 
-        String category = "Groceries";
+        String category = "No Category";
         setCategory(category);
     }
 

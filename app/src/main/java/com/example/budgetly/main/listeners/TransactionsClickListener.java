@@ -11,19 +11,25 @@ import com.example.budgetly.ui.dashboard.TransactionsFragmentDirections;
 import java.util.List;
 
 public class TransactionsClickListener implements View.OnClickListener {
-    private final List<TransactionEntryDto> transactions;
+    private final List<Object> formattedTransactionList;
 
-    public TransactionsClickListener(List<TransactionEntryDto> transactions) {
-        this.transactions = transactions;
+    public TransactionsClickListener(List<Object> formattedTransactionList) {
+        this.formattedTransactionList = formattedTransactionList;
     }
 
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
-        TransactionEntryDto clicked = transactions.get(position);
+
+        Object clicked = formattedTransactionList.get(position);
+
+        if(!(clicked instanceof TransactionEntryDto))
+            return;
+
+        TransactionEntryDto transactionEntryDto = (TransactionEntryDto) clicked;
 
         TransactionsFragmentDirections.ActionNavigationExpensesToTransactionDetails action =
-                TransactionsFragmentDirections.actionNavigationExpensesToTransactionDetails(String.valueOf(clicked.getId()));
+                TransactionsFragmentDirections.actionNavigationExpensesToTransactionDetails(String.valueOf(transactionEntryDto.getId()));
 
         NavController navController = Navigation.findNavController(v);
         navController.navigate(action);

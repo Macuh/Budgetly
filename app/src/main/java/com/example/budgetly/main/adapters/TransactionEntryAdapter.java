@@ -19,53 +19,78 @@ import java.util.Locale;
 
 import lombok.NonNull;
 
-public class TransactionEntryAdapter extends RecyclerView.Adapter<TransactionEntryAdapter.EntryViewHolder> {
-    private final List<TransactionEntryDto> entries;
+public class TransactionEntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int VIEW_TYPE_DIVIDER = 0;
+    private static final int VIEW_TYPE_ENTRY = 1;
+
+    private final List<Object> items;
     private final View.OnClickListener listener;
 
-    private void setCostTextColor(TextView costText, TransactionTypes transactionType) {
-        if(transactionType.equals(TransactionTypes.OUTGOING))
-            costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.light_red));
-        else if(transactionType.equals(TransactionTypes.INGOING))
-            costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.dark_green));
+    public TransactionEntryAdapter(List<Object> items, View.OnClickListener listener) {
+        this.items = items;
+        this.listener = listener;
     }
 
-    public TransactionEntryAdapter(List<TransactionEntryDto> entries, View.OnClickListener listener) {
-        this.entries = entries;
-        this.listener = listener;
+    @Override
+    public int getItemViewType(int position) {
+        if (items.get(position) instanceof Integer) {
+            return VIEW_TYPE_DIVIDER;
+        } else {
+            return VIEW_TYPE_ENTRY;
+        }
     }
 
     @NonNull
     @Override
-    public EntryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.transaction_entry_layout, parent, false);
-
-        return new EntryViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_DIVIDER) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.day_divisor_layout, parent, false);
+            return new DividerViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.transaction_entry_layout, parent, false);
+            return new EntryViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EntryViewHolder holder, int position) {
-        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
-        TransactionEntryDto entry = entries.get(position);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == VIEW_TYPE_DIVIDER) {
+            Integer dayLabel = (Integer) items.get(position);
+            ((DividerViewHolder) holder).dividerText.setText(String.valueOf(dayLabel));
+        } else {
+            TransactionEntryDto entry = (TransactionEntryDto) items.get(position);
+            EntryViewHolder entryHolder = (EntryViewHolder) holder;
 
-        String formattedCost = entry.getCost() != null ? currencyFormatter.format(entry.getCost()) : "";
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
-        holder.recipientText.setText(entry.getRecipient());
-        holder.categoryText.setText(entry.getCategory());
-        holder.dateText.setText(DateUtils.convertLocalDateTimeToDisplayableDate(entry.getDate()));
-        holder.bankText.setText(entry.getBank().getDisplayName());
+            String formattedCost = entry.getCost() != null ? currencyFormatter.format(entry.getCost()) : "";
 
-        holder.costText.setText(formattedCost);
-        setCostTextColor(holder.costText, entry.getTransactionType());
+            entryHolder.recipientText.setText(entry.getRecipient());
+            entryHolder.categoryText.setText(entry.getCategory());
+            entryHolder.dateText.setText(DateUtils.convertLocalDateTimeToDisplayableDate(entry.getDate()));
+            entryHolder.bankText.setText(entry.getBank().getDisplayName());
 
-        holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(listener);
+            entryHolder.costText.setText(formattedCost);
+            setCostTextColor(entryHolder.costText, entry.getTransactionType());
+
+            entryHolder.itemView.setTag(position);
+            entryHolder.itemView.setOnClickListener(listener);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return entries.size();
+        return items.size();
+    }
+
+    private void setCostTextColor(TextView costText, TransactionTypes transactionType) {
+        if (transactionType.equals(TransactionTypes.OUTGOING))
+            costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.light_red));
+        else if (transactionType.equals(TransactionTypes.INGOING))
+            costText.setTextColor(ContextCompat.getColor(costText.getContext(), R.color.dark_green));
     }
 
     public static class EntryViewHolder extends RecyclerView.ViewHolder {
@@ -80,5 +105,13 @@ public class TransactionEntryAdapter extends RecyclerView.Adapter<TransactionEnt
             dateText = itemView.findViewById(R.id.dateText);
         }
     }
-}
 
+    public static class DividerViewHolder extends RecyclerView.ViewHolder {
+        TextView dividerText;
+
+        public DividerViewHolder(@NonNull View itemView) {
+            super(itemView);
+            dividerText = itemView.findViewById(R.id.dividerText);
+        }
+    }
+}

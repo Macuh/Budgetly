@@ -54,11 +54,26 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         totalCostView.setText(String.format("%s$", BigDecimal.valueOf(transactionSummaryDto.getTotalCost()).setScale(2, RoundingMode.CEILING)));
     }
 
+    private List<Object> createListOfTransactionsDividedByDay(Map<Integer, List<TransactionEntryDto>> groupedTransactionsByDay) {
+        ArrayList<Object> listOfTransactionsDividedByDay = new ArrayList<>();
+
+        groupedTransactionsByDay.entrySet().stream()
+                .sorted(Map.Entry.<Integer, List<TransactionEntryDto>>comparingByKey().reversed())
+                .forEach(entry -> {
+                    listOfTransactionsDividedByDay.add(entry.getKey());
+                    listOfTransactionsDividedByDay.addAll(entry.getValue());
+                });
+
+        return listOfTransactionsDividedByDay;
+    }
+
     private void displayTransactionsInfo(TransactionSummaryDto transactionSummaryDto, RecyclerView transactionsList, TextView emptyListTextView) {
         List<TransactionEntryDto> data = transactionSummaryDto.getTransactions();
+        Map<Integer, List<TransactionEntryDto>> groupedTransactionsByDay = groupTransactionsByDay(data);
+        List<Object> formattedTransactionList = createListOfTransactionsDividedByDay(groupedTransactionsByDay);
 
         transactionsList.setLayoutManager(new LinearLayoutManager(context));
-        transactionsList.setAdapter(new TransactionEntryAdapter(data, new TransactionsClickListener(data)));
+        transactionsList.setAdapter(new TransactionEntryAdapter(formattedTransactionList, new TransactionsClickListener(formattedTransactionList)));
 
         // Show info message if data is empty
         if(data.isEmpty()) {
