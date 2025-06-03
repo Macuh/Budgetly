@@ -26,8 +26,12 @@ public class NotificationListener extends NotificationListenerService {
     public TransactionRepository transactionRepository;
 
     private void showDailyExpensesNotification(TransactionEntity newTransaction) {
-        double dailyExpenses = transactionRepository.getDailyExpenses(DateUtils.convertLocalDateTimeToNumericYearMonthDay(LocalDateTime.now())) + newTransaction.getCost();
-        BigDecimal formattedDailyExpenses = new BigDecimal(dailyExpenses);
+        Double dailyExpenses = transactionRepository.getDailyExpenses(DateUtils.convertLocalDateTimeToNumericYearMonthDay(LocalDateTime.now()));
+
+        if(dailyExpenses == null)
+            dailyExpenses = 0D;
+
+        BigDecimal formattedDailyExpenses = new BigDecimal(dailyExpenses + newTransaction.getCost());
         new NotificationService(this.getApplicationContext(), null).postNotification("Riepilogo spese", String.format("Oggi hai speso %s", formattedDailyExpenses.setScale(2, RoundingMode.CEILING)));
     }
 

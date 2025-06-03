@@ -21,7 +21,8 @@ public class DateUtils {
     }
 
     public static Long convertLocalDateTimeToUnix(LocalDateTime localDateTime) {
-        return localDateTime.toEpochSecond(ZoneOffset.UTC);
+        ZoneId romeZone = ZoneId.of("Europe/Rome");
+        return localDateTime.atZone(romeZone).toEpochSecond();
     }
 
     public static LocalDateTime convertDisplayableDateToLocalDateTime(String input) {
