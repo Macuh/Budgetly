@@ -6,6 +6,10 @@
     <string name="title_edit_transaction">Edit Transaction</string>
     <string name="title_notifications">Notifications</string>
 
+    <!-- Placeholders -->
+    <string name="categoryText_placeholder">Groceries</string>
+    <string name="total_category_expenses_placeholder">10$</string>
+
     <!-- Notification Channel-->
     <string name="notification_channel_id">TestingNotifications</string>
     <string name="notification_channel_name">Testing Notifications</string>

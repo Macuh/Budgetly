@@ -13,7 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetly.databinding.FragmentNotificationsBinding;
 import com.example.budgetly.main.listeners.ButtonClickListener;
+import com.example.budgetly.main.listeners.CreateNewCategoryClickListener;
+import com.example.budgetly.main.repositories.CategoryRepository;
 import com.example.budgetly.main.services.NotificationService;
+
+import java.util.Objects;
 
 public class NotificationsFragment extends Fragment {
 
@@ -31,6 +35,9 @@ public class NotificationsFragment extends Fragment {
 
         final Button button = binding.button;
         button.setOnClickListener(new ButtonClickListener(new NotificationService(this.getContext(), this.getActivity())));
+
+        final Button button2 = binding.button2;
+        button2.setOnClickListener(new CreateNewCategoryClickListener(new CategoryRepository(this.requireActivity().getApplication())));
 
         notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
