@@ -1,4 +1,4 @@
-package com.example.budgetly.ui.home;
+package com.example.budgetly.ui.categories;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.budgetly.databinding.FragmentHomeBinding;
+import com.example.budgetly.databinding.FragmentCategoriesBinding;
 
-public class HomeFragment extends Fragment {
+public class CategoriesFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentCategoriesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        CategoriesViewModel homeViewModel =
+                new ViewModelProvider(this).get(CategoriesViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentCategoriesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
