@@ -17,8 +17,6 @@ import com.example.budgetly.main.listeners.CreateNewCategoryClickListener;
 import com.example.budgetly.main.repositories.CategoryRepository;
 import com.example.budgetly.main.services.NotificationService;
 
-import java.util.Objects;
-
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;

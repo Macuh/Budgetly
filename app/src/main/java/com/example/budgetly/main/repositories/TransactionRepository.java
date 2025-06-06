@@ -7,8 +7,10 @@ import com.example.budgetly.main.configurations.AppDatabase;
 import com.example.budgetly.main.entities.TransactionEntity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -29,7 +31,7 @@ public class TransactionRepository {
     }
 
     public List<TransactionEntity> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
-        return transactionDao.getAllTransactionOrderByDescentDate(yearAndMonth);
+        return transactionDao.getAllTransactionByMonthOrderByDescentDate(yearAndMonth);
     }
 
     public List<String> getAllTransactionMonths() {
@@ -54,5 +56,15 @@ public class TransactionRepository {
 
     public void update(TransactionEntity transaction) {
         transactionDao.update(transaction);
+    }
+
+    public Map<Long, Double> getAllCategoriesExpensesByMonth(String yearAndMonth) {
+        List<TransactionEntity> categoryExpensesDtos = transactionDao.getAllTransactionByMonthOrderByDescentDate(yearAndMonth);
+
+        return categoryExpensesDtos.stream()
+                .collect(Collectors.groupingBy(
+                        TransactionEntity::getCategory,
+                        Collectors.summingDouble(TransactionEntity::getCost)
+                ));
     }
 }

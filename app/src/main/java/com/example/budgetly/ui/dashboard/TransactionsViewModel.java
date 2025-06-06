@@ -27,7 +27,7 @@ public class TransactionsViewModel extends ViewModel {
 
     public TransactionSummaryDto getTransactionsSummaryByMonth(String yearAndMonth) {
         TransactionSummaryDto transactionsSummary = new TransactionSummaryDto();
-        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsOrderByDescentDate(yearAndMonth);
+        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsByMonthOrderByDescentDate(yearAndMonth);
 
         transactionsSummary.setTotalCost((double) TransactionUtils.sumTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList())));
         transactionsSummary.setTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList()));

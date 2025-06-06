@@ -6,6 +6,7 @@ import com.example.budgetly.main.DAOs.CategoryDao;
 import com.example.budgetly.main.configurations.AppDatabase;
 import com.example.budgetly.main.entities.CategoryEntity;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,6 +21,10 @@ public class CategoryRepository {
         AppDatabase database = AppDatabase.getDatabase(application);
         categoryDao = database.categoryDao();
         executorService = Executors.newSingleThreadExecutor();
+    }
+
+    public List<CategoryEntity> getAllCategories() {
+        return categoryDao.getAllCategories();
     }
 
     public void insert(CategoryEntity categoryEntity) {
