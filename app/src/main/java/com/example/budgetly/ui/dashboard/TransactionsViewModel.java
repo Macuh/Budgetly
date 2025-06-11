@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.dto.TransactionSummaryDto;
-import com.example.budgetly.main.entities.TransactionEntity;
+import com.example.budgetly.main.entities.TransactionWithCategory;
 import com.example.budgetly.main.services.TransactionsService;
 import com.example.budgetly.main.utils.TransactionUtils;
 
@@ -27,7 +27,7 @@ public class TransactionsViewModel extends ViewModel {
 
     public TransactionSummaryDto getTransactionsSummaryByMonth(String yearAndMonth) {
         TransactionSummaryDto transactionsSummary = new TransactionSummaryDto();
-        List<TransactionEntity> transactionEntities = transactionsService.getAllTransactionsByMonthOrderByDescentDate(yearAndMonth);
+        List<TransactionWithCategory> transactionEntities = transactionsService.getAllTransactionsByMonthOrderByDescentDate(yearAndMonth);
 
         transactionsSummary.setTotalCost((double) TransactionUtils.sumTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList())));
         transactionsSummary.setTransactions(transactionEntities.stream().map(TransactionEntryDto::new).collect(Collectors.toList()));

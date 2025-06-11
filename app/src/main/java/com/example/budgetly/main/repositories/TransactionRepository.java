@@ -5,6 +5,7 @@ import android.app.Application;
 import com.example.budgetly.main.DAOs.TransactionDao;
 import com.example.budgetly.main.configurations.AppDatabase;
 import com.example.budgetly.main.entities.TransactionEntity;
+import com.example.budgetly.main.entities.TransactionWithCategory;
 
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class TransactionRepository {
         executorService.execute(() -> transactionDao.insert(transaction));
     }
 
-    public List<TransactionEntity> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
+    public List<TransactionWithCategory> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
         return transactionDao.getAllTransactionByMonthOrderByDescentDate(yearAndMonth);
     }
 
@@ -59,12 +60,13 @@ public class TransactionRepository {
     }
 
     public Map<Long, Double> getAllCategoriesExpensesByMonth(String yearAndMonth) {
-        List<TransactionEntity> categoryExpensesDtos = transactionDao.getAllTransactionByMonthOrderByDescentDate(yearAndMonth);
+        List<TransactionWithCategory> categoryExpensesDtos = transactionDao.getAllTransactionByMonthOrderByDescentDate(yearAndMonth);
 
         return categoryExpensesDtos.stream()
+                .filter(transaction -> transaction.getCategory() != null)
                 .collect(Collectors.groupingBy(
-                        TransactionEntity::getCategory,
-                        Collectors.summingDouble(TransactionEntity::getCost)
+                        twc -> twc.getCategory().getCategoryId(),
+                        Collectors.summingDouble(twc -> twc.getTransaction().getCost())
                 ));
     }
 }

@@ -2,6 +2,7 @@ package com.example.budgetly.main.services;
 
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.entities.TransactionEntity;
+import com.example.budgetly.main.entities.TransactionWithCategory;
 import com.example.budgetly.main.repositories.TransactionRepository;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class TransactionsService {
         this.transactionRepository = transactionRepository;
     }
 
-    public List<TransactionEntity> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
+    public List<TransactionWithCategory> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
         return transactionRepository.getAllTransactionsByMonthOrderByDescentDate(yearAndMonth);
     }
 
