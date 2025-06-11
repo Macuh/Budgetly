@@ -28,6 +28,7 @@ public class TransactionEntryDto implements Serializable {
         setTransactionType(transactionEntity.getTransactionType());
         setBank(transactionEntity.getBank());
         setCategory(NO_CATEGORY);
+        setCategoryId(null);
     }
 
     public TransactionEntryDto(TransactionWithCategory transactionWithCategory) {
@@ -40,11 +41,13 @@ public class TransactionEntryDto implements Serializable {
 
         CategoryEntity categoryEntity = transactionWithCategory.getCategory();
         setCategory(categoryEntity != null ? categoryEntity.getCategoryName() : NO_CATEGORY);
+        setCategoryId(categoryEntity != null ? categoryEntity.getCategoryId() : null);
     }
 
     private Long id;
     private String recipient;
     private Double cost;
+    private Long categoryId;
     private String category;
     private LocalDateTime date;
     private BankNames bank;

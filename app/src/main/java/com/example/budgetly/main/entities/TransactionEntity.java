@@ -30,7 +30,7 @@ public class TransactionEntity {
         this.transactionRecipient = transactionEntryDto.getRecipient();
         this.cost = transactionEntryDto.getCost();
         this.bank = transactionEntryDto.getBank();
-        this.category = null; // TODO: Implement categories
+        this.category = transactionEntryDto.getCategoryId();
         this.transactionType = transactionEntryDto.getTransactionType();
         this.transactionDate = DateUtils.convertLocalDateTimeToUnix(transactionEntryDto.getDate());
 

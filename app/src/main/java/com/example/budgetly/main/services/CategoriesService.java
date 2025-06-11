@@ -8,6 +8,7 @@ import com.example.budgetly.main.repositories.TransactionRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -35,5 +36,10 @@ public class CategoriesService {
         }
 
         return categoryDtos;
+    }
+
+    public List<CategoryDto> getAllCategories() {
+        List<CategoryEntity> categories = categoryRepository.getAllCategories();
+        return categories.stream().map(CategoryDto::new).collect(Collectors.toList());
     }
 }

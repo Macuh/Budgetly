@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.budgetly.R;
 import com.example.budgetly.databinding.FragmentEditTransactionBinding;
+import com.example.budgetly.main.dto.CategoryDto;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.listeners.CalendarDateHourPicker;
 import com.example.budgetly.main.listeners.SaveTransactionButtonClickListener;
@@ -37,6 +38,7 @@ public class EditTransactionFragment extends Fragment {
     }
 
     private void setupTextFields(EditTransactionViewModel editTransactionViewModel,
+                                 CategoryDto[] categoryDtos,
                                  TransactionEntryDto transactionEntryDto,
                                  EditText recipientEditText,
                                  EditText costEditText,
@@ -49,14 +51,22 @@ public class EditTransactionFragment extends Fragment {
 
         costEditText.setText(convertDoubleNumberToString(transactionEntryDto.getCost()));
 
+        // Category Entity Adapter
+        categoryAutoComplete.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.dark_dropdown, categoryDtos));
+        categoryAutoComplete.setOnClickListener(v -> categoryAutoComplete.showDropDown());
+        categoryAutoComplete.setText(transactionEntryDto.getCategory(), false);
+
+        // Bank
         bankAutoComplete.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.dark_dropdown, editTransactionViewModel.getBanks()));
         bankAutoComplete.setOnClickListener(v -> bankAutoComplete.showDropDown());
         bankAutoComplete.setText(transactionEntryDto.getBank().toString(), false);
 
+        // Transaction Type
         transactionTypeAutoComplete.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.dark_dropdown, editTransactionViewModel.getTransactionTypes()));
         transactionTypeAutoComplete.setOnClickListener(v -> transactionTypeAutoComplete.showDropDown());
         transactionTypeAutoComplete.setText(transactionEntryDto.getTransactionType().toString(), false);
 
+        // Transaction Date
         dateEditText.setText(DateUtils.convertLocalDateTimeToDisplayableDate(transactionEntryDto.getDate()));
         dateEditText.setOnClickListener(new CalendarDateHourPicker(dateEditText));
     }
@@ -76,19 +86,21 @@ public class EditTransactionFragment extends Fragment {
         String transactionId = EditTransactionFragmentArgs.fromBundle(requireArguments()).getTransactionId();
 
         TransactionEntryDto transactionEntryDto = editTransactionViewModel.getTransactionById(transactionId);
+        CategoryDto[] categoryDtos = editTransactionViewModel.getCategories();
+
         FragmentEditTransactionBinding binding = FragmentEditTransactionBinding.inflate(inflater, container, false);
 
         EditText recipientEditText = binding.recipientEditText;
         EditText costEditText = binding.costEditText;
         AutoCompleteTextView bankAutoComplete = binding.bankAutoComplete;
-        AutoCompleteTextView categoryAutoComplete = binding.categoryAutoComplete; // TODO: Implement categories
+        AutoCompleteTextView categoryAutoComplete = binding.categoryAutoComplete;
         AutoCompleteTextView transactionTypeAutoComplete = binding.transactionTypeAutoComplete;
         EditText dateEditText = binding.dateEditText;
 
-        setupTextFields(editTransactionViewModel, transactionEntryDto, recipientEditText, costEditText, bankAutoComplete, categoryAutoComplete, transactionTypeAutoComplete, dateEditText);
+        setupTextFields(editTransactionViewModel, categoryDtos, transactionEntryDto, recipientEditText, costEditText, bankAutoComplete, categoryAutoComplete, transactionTypeAutoComplete, dateEditText);
 
         MaterialButton materialButton = binding.saveButton;
-        materialButton.setOnClickListener(saveTransactionListenerFactory.create(transactionEntryDto, recipientEditText, costEditText, bankAutoComplete, categoryAutoComplete, transactionTypeAutoComplete, dateEditText));
+        materialButton.setOnClickListener(saveTransactionListenerFactory.create(transactionEntryDto, recipientEditText, costEditText, bankAutoComplete, categoryAutoComplete, transactionTypeAutoComplete, dateEditText, categoryDtos));
 
         return binding.getRoot();
     }

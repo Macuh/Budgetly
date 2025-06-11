@@ -8,12 +8,15 @@ import android.widget.Toast;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.budgetly.main.dto.CategoryDto;
 import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.enums.BankNames;
 import com.example.budgetly.main.enums.TransactionTypes;
 import com.example.budgetly.main.services.TransactionsService;
 import com.example.budgetly.main.utils.DateUtils;
 import com.example.budgetly.main.utils.DialogsUtils;
+
+import java.util.Arrays;
 
 import dagger.assisted.Assisted;
 import dagger.assisted.AssistedFactory;
@@ -28,6 +31,7 @@ public class SaveTransactionButtonClickListener implements View.OnClickListener 
     private final AutoCompleteTextView categoryAutoComplete;
     private final AutoCompleteTextView transactionTypeAutoComplete;
     private final EditText dateEditText;
+    private final CategoryDto[] categories;
 
     @AssistedInject
     public SaveTransactionButtonClickListener(
@@ -38,7 +42,8 @@ public class SaveTransactionButtonClickListener implements View.OnClickListener 
             @Assisted("bank") AutoCompleteTextView bankAutoComplete,
             @Assisted("category") AutoCompleteTextView categoryAutoComplete,
             @Assisted("transactionType") AutoCompleteTextView transactionTypeAutoComplete,
-            @Assisted("date") EditText dateEditText
+            @Assisted("date") EditText dateEditText,
+            @Assisted("categories") CategoryDto[] categories
     ) {
         this.transactionsService = transactionsService;
         this.transactionEntryDto = transactionEntryDto;
@@ -48,15 +53,26 @@ public class SaveTransactionButtonClickListener implements View.OnClickListener 
         this.categoryAutoComplete = categoryAutoComplete;
         this.transactionTypeAutoComplete = transactionTypeAutoComplete;
         this.dateEditText = dateEditText;
+        this.categories = categories;
+    }
+
+    private CategoryDto getSelectedCategoryByName() {
+        return Arrays.stream(categories).filter(categoryDto -> categoryDto.getCategoryName().equals(categoryAutoComplete.getText().toString())).findFirst().orElse(null);
     }
 
     private void updateTransactionFields() {
         transactionEntryDto.setRecipient(recipientEditText.getText().toString());
         transactionEntryDto.setCost(Double.valueOf(costEditText.getText().toString()));
-        transactionEntryDto.setCategory(null); // TODO: Implement category
         transactionEntryDto.setBank(BankNames.fromString(bankAutoComplete.getText().toString()));
         transactionEntryDto.setTransactionType(TransactionTypes.fromString(transactionTypeAutoComplete.getText().toString()));
         transactionEntryDto.setDate(DateUtils.convertDisplayableDateToLocalDateTime(dateEditText.getText().toString()));
+
+        CategoryDto selectedCategory = getSelectedCategoryByName();
+
+        if(selectedCategory != null) {
+            transactionEntryDto.setCategory(selectedCategory.getCategoryName());
+            transactionEntryDto.setCategoryId(selectedCategory.getId());
+        }
     }
 
     private boolean saveTransaction() {
@@ -99,6 +115,7 @@ public class SaveTransactionButtonClickListener implements View.OnClickListener 
                 @Assisted("bank") AutoCompleteTextView bankAutoComplete,
                 @Assisted("category") AutoCompleteTextView categoryAutoComplete,
                 @Assisted("transactionType") AutoCompleteTextView transactionTypeAutoComplete,
-                @Assisted("date") EditText dateEditText);
+                @Assisted("date") EditText dateEditText,
+                @Assisted("categories") CategoryDto[] categories);
     }
 }
