@@ -32,7 +32,7 @@ public class TransactionsService {
     }
 
     public TransactionEntryDto getTransactionById(String transactionId) {
-        TransactionEntity transaction = null;
+        TransactionWithCategory transaction = null;
 
         if (transactionId != null)
             transaction = transactionRepository.getTransactionById(Long.valueOf(transactionId));

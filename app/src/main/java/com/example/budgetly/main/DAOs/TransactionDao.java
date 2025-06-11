@@ -13,8 +13,9 @@ import java.util.List;
 
 @Dao
 public interface TransactionDao {
+    @Transaction
     @Query("SELECT * FROM transactions where id = :id")
-    TransactionEntity getTransactionById(Long id);
+    TransactionWithCategory getTransactionById(Long id);
 
     @Query("DELETE FROM transactions WHERE id = :transactionId")
     int deleteById(Long transactionId);

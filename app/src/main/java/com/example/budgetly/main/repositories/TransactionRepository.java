@@ -39,7 +39,7 @@ public class TransactionRepository {
         return transactionDao.getAllTransactionMonths();
     }
 
-    public TransactionEntity getTransactionById(Long transactionId) {
+    public TransactionWithCategory getTransactionById(Long transactionId) {
         return transactionDao.getTransactionById(transactionId);
     }
 
