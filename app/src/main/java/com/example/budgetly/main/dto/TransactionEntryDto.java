@@ -1,5 +1,6 @@
 package com.example.budgetly.main.dto;
 
+import com.example.budgetly.main.entities.CategoryEntity;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.entities.TransactionWithCategory;
 import com.example.budgetly.main.enums.BankNames;
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionEntryDto implements Serializable {
+    private static final String NO_CATEGORY = "No Category";
 
     public TransactionEntryDto(TransactionEntity transactionEntity) {
         setId(transactionEntity.getId());
@@ -25,9 +27,7 @@ public class TransactionEntryDto implements Serializable {
         setDate(DateUtils.convertUnixToLocalDateTime(transactionEntity.getTransactionDate()));
         setTransactionType(transactionEntity.getTransactionType());
         setBank(transactionEntity.getBank());
-
-        String category = "No Category";
-        setCategory(category);
+        setCategory(NO_CATEGORY);
     }
 
     public TransactionEntryDto(TransactionWithCategory transactionWithCategory) {
@@ -37,7 +37,9 @@ public class TransactionEntryDto implements Serializable {
         setDate(DateUtils.convertUnixToLocalDateTime(transactionWithCategory.getTransaction().getTransactionDate()));
         setTransactionType(transactionWithCategory.getTransaction().getTransactionType());
         setBank(transactionWithCategory.getTransaction().getBank());
-        setCategory(transactionWithCategory.getCategory().getCategoryName());
+
+        CategoryEntity categoryEntity = transactionWithCategory.getCategory();
+        setCategory(categoryEntity != null ? categoryEntity.getCategoryName() : NO_CATEGORY);
     }
 
     private Long id;

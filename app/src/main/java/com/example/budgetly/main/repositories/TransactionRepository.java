@@ -43,8 +43,8 @@ public class TransactionRepository {
         return transactionDao.getTransactionById(transactionId);
     }
 
-    public Double getDailyExpenses(String yearMonthDay) {
-        return transactionDao.getDailyExpensesSum(yearMonthDay);
+    public List<TransactionEntity> getDailyExpenses(String yearMonthDay) {
+        return transactionDao.getDailyYTransaction(yearMonthDay);
     }
 
     public List<TransactionEntity> getAllTransactionByRecipientOrderByDescentDate(String yearAndMonth, String recipient) {
