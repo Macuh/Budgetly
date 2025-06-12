@@ -6,6 +6,7 @@ import com.example.budgetly.main.repositories.CategoryRepository;
 import com.example.budgetly.main.repositories.TransactionRepository;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,7 +36,8 @@ public class CategoriesService {
             categoryDtos.add(new CategoryDto(category.getCategoryId(), category.getCategoryName(), expensesValue));
         }
 
-        return categoryDtos;
+        // Desc Sort By total expenses
+        return categoryDtos.stream().sorted(Comparator.comparing(CategoryDto::getTotalExpenses).reversed()).collect(Collectors.toList());
     }
 
     public List<CategoryDto> getAllCategories() {

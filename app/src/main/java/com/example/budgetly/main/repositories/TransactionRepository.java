@@ -6,6 +6,7 @@ import com.example.budgetly.main.DAOs.TransactionDao;
 import com.example.budgetly.main.configurations.AppDatabase;
 import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.entities.TransactionWithCategory;
+import com.example.budgetly.main.enums.TransactionTypes;
 
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,12 @@ public class TransactionRepository {
                 .filter(transaction -> transaction.getCategory() != null)
                 .collect(Collectors.groupingBy(
                         twc -> twc.getCategory().getCategoryId(),
-                        Collectors.summingDouble(twc -> twc.getTransaction().getCost())
+                        Collectors.summingDouble(twc -> {
+                            if(twc.getTransaction().getTransactionType().equals(TransactionTypes.OUTGOING))
+                                return twc.getTransaction().getCost();
+                            else
+                                return -twc.getTransaction().getCost();
+                        })
                 ));
     }
 }
