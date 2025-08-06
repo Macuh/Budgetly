@@ -26,6 +26,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,6 +77,24 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         }
     }
 
+    private ArrayList<Entry> getBudgetLimitLineEntries() {
+        int firstDayOfMonth = DateUtils.getFirstMonthsDay();
+        int currentDay = DateUtils.getCurrentDay();
+        int daysInMonth = YearMonth.now().lengthOfMonth();
+
+        ArrayList<Entry> budgetLimitLineEntries = new ArrayList<>();
+
+        float dailyBudget = 1000.0f / daysInMonth;
+        float currentExpectedBudget = 0.0f;
+
+        for(int i = firstDayOfMonth; i <= currentDay; i++) {
+            currentExpectedBudget += dailyBudget;
+            budgetLimitLineEntries.add(new Entry(i, currentExpectedBudget));
+        }
+
+        return  budgetLimitLineEntries;
+    }
+
     private ArrayList<Entry> getDailyChartEntries(Map<Integer, List<TransactionEntryDto>> transactionsGroupedByDay) {
         int firstDayOfMonth = DateUtils.getFirstMonthsDay();
         int currentDay = DateUtils.getCurrentDay();
@@ -100,6 +119,8 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
     private void updateLineChartData(TransactionSummaryDto transactionSummaryDto, LineChart lineChart) {
         List<TransactionEntryDto> transactions = transactionSummaryDto.getTransactions();
         Map<Integer, List<TransactionEntryDto>> transactionsGroupedByDay = TransactionUtils.groupTransactionsByDay(transactions);
+
+        ArrayList<Entry> budgetLimitLineEntries = getBudgetLimitLineEntries();
         ArrayList<Entry> summedCostsByDay = getDailyChartEntries(transactionsGroupedByDay);
 
         LineData lineData = new LineData();
@@ -111,6 +132,18 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         lineDataSet.setValueTextColor(context.getColor(R.color.dark_grey));
 
         lineData.addDataSet(lineDataSet);
+
+        LineDataSet budgetDataset = new LineDataSet(budgetLimitLineEntries, "Budget Limit");
+
+        budgetDataset.setColor(context.getColor(R.color.light_red));
+        budgetDataset.setLineWidth(3f);
+        budgetDataset.enableDashedLine(10f, 10f, 0f);
+        budgetDataset.setDrawValues(false);
+        budgetDataset.setDrawCircles(false);
+        budgetDataset.setDrawFilled(false);
+
+        lineData.addDataSet(budgetDataset);
+
         lineChart.setData(lineData);
         lineChart.invalidate();
     }
