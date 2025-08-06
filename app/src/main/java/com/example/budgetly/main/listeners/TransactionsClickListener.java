@@ -3,18 +3,24 @@ package com.example.budgetly.main.listeners;
 import android.view.View;
 
 import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.budgetly.main.dto.TransactionEntryDto;
-import com.example.budgetly.ui.dashboard.TransactionsFragmentDirections;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class TransactionsClickListener implements View.OnClickListener {
     private final List<Object> formattedTransactionList;
+    private final Function<TransactionEntryDto, NavDirections> navActionProvider;
 
-    public TransactionsClickListener(List<Object> formattedTransactionList) {
+    public TransactionsClickListener(
+            List<Object> formattedTransactionList,
+            Function<TransactionEntryDto, NavDirections> navActionProvider
+    ) {
         this.formattedTransactionList = formattedTransactionList;
+        this.navActionProvider = navActionProvider;
     }
 
     @Override
@@ -23,16 +29,14 @@ public class TransactionsClickListener implements View.OnClickListener {
 
         Object clicked = formattedTransactionList.get(position);
 
-        if(!(clicked instanceof TransactionEntryDto))
+        if (!(clicked instanceof TransactionEntryDto))
             return;
 
         TransactionEntryDto transactionEntryDto = (TransactionEntryDto) clicked;
 
-        TransactionsFragmentDirections.ActionNavigationExpensesToTransactionDetails action =
-                TransactionsFragmentDirections.actionNavigationExpensesToTransactionDetails(String.valueOf(transactionEntryDto.getId()));
+        NavDirections action = navActionProvider.apply(transactionEntryDto);
 
         NavController navController = Navigation.findNavController(v);
         navController.navigate(action);
     }
 }
-

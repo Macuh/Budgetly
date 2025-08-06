@@ -15,4 +15,7 @@ public interface CategoryDao {
 
     @Query("Select * FROM category")
     List<CategoryEntity> getAllCategories();
+
+    @Query("Select * FROM category WHERE categoryId = :categoryId")
+    CategoryEntity getCategoryById(Long categoryId);
 }

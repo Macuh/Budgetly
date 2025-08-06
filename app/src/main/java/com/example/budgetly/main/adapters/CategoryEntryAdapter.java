@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.budgetly.R;
 import com.example.budgetly.main.dto.CategoryDto;
+import com.example.budgetly.main.listeners.CategoriesClickListener;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -18,11 +19,11 @@ import java.util.Locale;
 public class CategoryEntryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<CategoryDto> items;
-    private final View.OnClickListener listener;
+    private final String yearAndMonth;
 
-    public CategoryEntryAdapter(List<CategoryDto> items, View.OnClickListener listener) {
+    public CategoryEntryAdapter(List<CategoryDto> items, String yearAndMonth) {
         this.items = items;
-        this.listener = listener;
+        this.yearAndMonth = yearAndMonth;
     }
 
     @NonNull
@@ -42,6 +43,8 @@ public class CategoryEntryAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         entryHolder.categoryText.setText(categoryDto.getCategoryName());
         entryHolder.totalCategoryExpensesText.setText(formattedCost);
+
+        entryHolder.itemView.setOnClickListener(new CategoriesClickListener(categoryDto.getId(), this.yearAndMonth));
     }
 
     @Override

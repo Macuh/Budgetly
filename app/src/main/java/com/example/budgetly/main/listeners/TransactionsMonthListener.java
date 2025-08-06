@@ -17,6 +17,7 @@ import com.example.budgetly.main.dto.TransactionEntryDto;
 import com.example.budgetly.main.dto.TransactionSummaryDto;
 import com.example.budgetly.main.utils.DateUtils;
 import com.example.budgetly.main.utils.TransactionUtils;
+import com.example.budgetly.ui.dashboard.TransactionsFragmentDirections;
 import com.example.budgetly.ui.dashboard.TransactionsViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
@@ -29,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TransactionsMonthListener implements AdapterView.OnItemSelectedListener {
 
@@ -53,26 +53,18 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         totalCostView.setText(String.format("%s$", BigDecimal.valueOf(transactionSummaryDto.getTotalCost()).setScale(2, RoundingMode.CEILING)));
     }
 
-    private List<Object> createListOfTransactionsDividedByDay(Map<Integer, List<TransactionEntryDto>> groupedTransactionsByDay) {
-        ArrayList<Object> listOfTransactionsDividedByDay = new ArrayList<>();
-
-        groupedTransactionsByDay.entrySet().stream()
-                .sorted(Map.Entry.<Integer, List<TransactionEntryDto>>comparingByKey().reversed())
-                .forEach(entry -> {
-                    listOfTransactionsDividedByDay.add(entry.getKey());
-                    listOfTransactionsDividedByDay.addAll(entry.getValue());
-                });
-
-        return listOfTransactionsDividedByDay;
-    }
-
     private void displayTransactionsInfo(TransactionSummaryDto transactionSummaryDto, RecyclerView transactionsList, TextView emptyListTextView) {
         List<TransactionEntryDto> data = transactionSummaryDto.getTransactions();
-        Map<Integer, List<TransactionEntryDto>> groupedTransactionsByDay = groupTransactionsByDay(data);
-        List<Object> formattedTransactionList = createListOfTransactionsDividedByDay(groupedTransactionsByDay);
+        List<Object> formattedTransactionList = TransactionUtils.createListOfTransactionsDividedByDay(data);
 
         transactionsList.setLayoutManager(new LinearLayoutManager(context));
-        transactionsList.setAdapter(new TransactionEntryAdapter(formattedTransactionList, new TransactionsClickListener(formattedTransactionList)));
+
+        TransactionsClickListener transactionsClickListener = new TransactionsClickListener(
+                formattedTransactionList,
+                transaction -> TransactionsFragmentDirections.actionNavigationExpensesToTransactionDetails(String.valueOf(transaction.getId())));
+
+        TransactionEntryAdapter transactionEntryAdapter = new TransactionEntryAdapter(formattedTransactionList, transactionsClickListener);
+        transactionsList.setAdapter(transactionEntryAdapter);
 
         // Show info message if data is empty
         if(data.isEmpty()) {
@@ -82,11 +74,6 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
             transactionsList.setVisibility(VISIBLE);
             emptyListTextView.setVisibility(GONE);
         }
-    }
-
-    private Map<Integer, List<TransactionEntryDto>> groupTransactionsByDay(List<TransactionEntryDto> transactions) {
-        return transactions.stream()
-                .collect(Collectors.groupingBy(transactionEntryDto -> transactionEntryDto.getDate().getDayOfMonth()));
     }
 
     private ArrayList<Entry> getDailyChartEntries(Map<Integer, List<TransactionEntryDto>> transactionsGroupedByDay) {
@@ -112,7 +99,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
 
     private void updateLineChartData(TransactionSummaryDto transactionSummaryDto, LineChart lineChart) {
         List<TransactionEntryDto> transactions = transactionSummaryDto.getTransactions();
-        Map<Integer, List<TransactionEntryDto>> transactionsGroupedByDay = groupTransactionsByDay(transactions);
+        Map<Integer, List<TransactionEntryDto>> transactionsGroupedByDay = TransactionUtils.groupTransactionsByDay(transactions);
         ArrayList<Entry> summedCostsByDay = getDailyChartEntries(transactionsGroupedByDay);
 
         LineData lineData = new LineData();

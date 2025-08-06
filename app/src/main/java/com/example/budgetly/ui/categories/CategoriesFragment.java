@@ -28,7 +28,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class CategoriesFragment extends Fragment {
-
     private FragmentCategoriesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

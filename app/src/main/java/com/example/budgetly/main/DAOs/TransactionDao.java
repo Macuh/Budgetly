@@ -21,6 +21,10 @@ public interface TransactionDao {
     int deleteById(Long transactionId);
 
     @Transaction
+    @Query("SELECT * FROM transactions WHERE strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) = :yearAndMonth AND category = :categoryId ORDER BY transaction_date DESC")
+    List<TransactionWithCategory> getAllTransactionByMonthByCategoryIdOrderByDescentDate(String yearAndMonth, String categoryId);
+
+    @Transaction
     @Query("SELECT * FROM transactions WHERE strftime('%Y-%m', datetime(transaction_date, 'unixepoch')) = :yearAndMonth ORDER BY transaction_date DESC")
     List<TransactionWithCategory> getAllTransactionByMonthOrderByDescentDate(String yearAndMonth);
 

@@ -18,6 +18,10 @@ public class TransactionsService {
         this.transactionRepository = transactionRepository;
     }
 
+    public List<TransactionWithCategory> getAllTransactionByMonthByCategoryIdOrderByDescentDate(String yearAndMonth, String categoryId) {
+        return transactionRepository.getAllTransactionByMonthByCategoryIdOrderByDescentDate(yearAndMonth, categoryId);
+    }
+
     public List<TransactionWithCategory> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
         return transactionRepository.getAllTransactionsByMonthOrderByDescentDate(yearAndMonth);
     }

@@ -8,7 +8,16 @@
         android:id="@+id/navigation_categories"
         android:name="com.example.budgetly.ui.categories.CategoriesFragment"
         android:label="@string/title_categories"
-        tools:layout="@layout/fragment_categories" />
+        tools:layout="@layout/fragment_categories">
+
+        <action
+            android:id="@+id/action_navigation_categories_to_category_details"
+            app:destination="@id/navigation_category_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_expenses"
@@ -44,6 +53,29 @@
         <action
             android:id="@+id/action_navigation_transactionDetails_to_editTransaction"
             app:destination="@id/navigation_editTransaction"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_category_details"
+        android:name="com.example.budgetly.ui.categoryDetails.CategoryDetailsFragment"
+        android:label="@string/title_category_details"
+        tools:layout="@layout/fragment_category_details" >
+
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+
+        <argument
+            android:name="month"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_category_details_to_transactionDetails"
+            app:destination="@id/navigation_transactionDetails"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"

@@ -23,6 +23,10 @@ public class CategoriesService {
         this.transactionRepository = transactionRepository;
     }
 
+    public CategoryDto getCategoryById(String categoryId) {
+        return new CategoryDto(categoryRepository.getCategoryById(Long.valueOf(categoryId)));
+    }
+
     public List<CategoryDto> getCategoriesWithExpensesByMonth(String yearAndMonth) {
         List<CategoryDto> categoryDtos = new ArrayList<>();
 

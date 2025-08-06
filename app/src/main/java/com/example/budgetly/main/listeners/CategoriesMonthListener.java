@@ -35,14 +35,14 @@ public class CategoriesMonthListener implements AdapterView.OnItemSelectedListen
         this.categoriesViewModel = categoriesViewModel;
     }
 
-    private void displayCategoriesInfo(List<CategoryDto> items) {
+    private void displayCategoriesInfo(List<CategoryDto> items, String yearAndMonth) {
         categoriesList.setLayoutManager(new LinearLayoutManager(context));
-        categoriesList.setAdapter(new CategoryEntryAdapter(items, new CategoriesClickListener()));
+        categoriesList.setAdapter(new CategoryEntryAdapter(items, yearAndMonth));
     }
 
     private void updateCategoriesDataByMonth(String yearAndMonth) {
         List<CategoryDto> categories = categoriesViewModel.getCategoriesWithExpensesByMonth(yearAndMonth);
-        displayCategoriesInfo(categories);
+        displayCategoriesInfo(categories, yearAndMonth);
 
         // Show info message if data is empty
         if(categories.isEmpty()) {

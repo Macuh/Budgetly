@@ -32,6 +32,10 @@ public class TransactionRepository {
         executorService.execute(() -> transactionDao.insert(transaction));
     }
 
+    public List<TransactionWithCategory> getAllTransactionByMonthByCategoryIdOrderByDescentDate(String yearAndMonth, String categoryId) {
+        return transactionDao.getAllTransactionByMonthByCategoryIdOrderByDescentDate(yearAndMonth, categoryId);
+    }
+
     public List<TransactionWithCategory> getAllTransactionsByMonthOrderByDescentDate(String yearAndMonth) {
         return transactionDao.getAllTransactionByMonthOrderByDescentDate(yearAndMonth);
     }

@@ -27,6 +27,10 @@ public class CategoryRepository {
         return categoryDao.getAllCategories();
     }
 
+    public CategoryEntity getCategoryById(Long categoryId) {
+        return categoryDao.getCategoryById(categoryId);
+    }
+
     public void insert(CategoryEntity categoryEntity) {
         executorService.execute(() -> categoryDao.insert(categoryEntity));
     }
