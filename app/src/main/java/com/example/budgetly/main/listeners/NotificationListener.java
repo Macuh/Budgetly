@@ -9,6 +9,7 @@ import com.example.budgetly.main.entities.TransactionEntity;
 import com.example.budgetly.main.repositories.TransactionRepository;
 import com.example.budgetly.main.services.NotificationService;
 import com.example.budgetly.main.services.converters.BankingAppNotificationConverter;
+import com.example.budgetly.main.services.converters.HypeNotificationConverter;
 import com.example.budgetly.main.services.converters.TradeRepublicNotificationConverter;
 import com.example.budgetly.main.utils.DateUtils;
 import com.example.budgetly.main.utils.TransactionUtils;
@@ -47,6 +48,8 @@ public class NotificationListener extends NotificationListenerService {
 
         if(packageName.equals(getString(R.string.trade_rep_package)))
             bankingAppNotificationConverter = new TradeRepublicNotificationConverter();
+        else if (packageName.equals(getString(R.string.hype_package)))
+            bankingAppNotificationConverter = new HypeNotificationConverter();
         else if (packageName.equals(getString(R.string.test_package)))
             bankingAppNotificationConverter = new TradeRepublicNotificationConverter();
 

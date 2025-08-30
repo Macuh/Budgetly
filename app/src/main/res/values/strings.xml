@@ -16,8 +16,9 @@
     <string name="notification_channel_name">Testing Notifications</string>
 
     <!-- Banking apps packages -->
-    <string name="trade_rep_package">de.traderepublic.app</string>
     <string name="test_package">com.example.budgetly</string>
+    <string name="trade_rep_package">de.traderepublic.app</string>
+    <string name="hype_package">it.hype.app</string>
 
     <string name="month_total_cost_header">Expenses</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>

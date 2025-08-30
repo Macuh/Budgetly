@@ -79,7 +79,6 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
 
     private ArrayList<Entry> getBudgetLimitLineEntries() {
         int firstDayOfMonth = DateUtils.getFirstMonthsDay();
-        int currentDay = DateUtils.getCurrentDay();
         int daysInMonth = YearMonth.now().lengthOfMonth();
 
         ArrayList<Entry> budgetLimitLineEntries = new ArrayList<>();
@@ -87,7 +86,7 @@ public class TransactionsMonthListener implements AdapterView.OnItemSelectedList
         float dailyBudget = 1000.0f / daysInMonth;
         float currentExpectedBudget = 0.0f;
 
-        for(int i = firstDayOfMonth; i <= currentDay; i++) {
+        for(int i = firstDayOfMonth; i <= daysInMonth; i++) {
             currentExpectedBudget += dailyBudget;
             budgetLimitLineEntries.add(new Entry(i, currentExpectedBudget));
         }
